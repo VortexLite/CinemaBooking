@@ -1,0 +1,37 @@
+<Solution>
+  <Folder Name="/Services/" />
+  <Folder Name="/Services/Booking/">
+    <Project Path="Booking.Api/Booking.Api.csproj" />
+    <Project Path="Booking.Application/Booking.Application.csproj" />
+    <Project Path="Booking.Domain/Booking.Domain.csproj" />
+    <Project Path="Booking.Infrastructure/Booking.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/Services/Identity/">
+    <Project Path="Identity.Api/Identity.Api.csproj" />
+    <Project Path="Identity.Application/Identity.Application.csproj" Id="4084cd8b-d3e3-49f1-92d4-41bbd293767d" />
+    <Project Path="Identity.Domain/Identity.Domain.csproj" Id="db6c108b-b830-4041-adb8-45d25a55106a" />
+    <Project Path="Identity.Infrastructure/Identity.Infrastructure.csproj" Id="8df1c922-3f6d-4a8c-8b4d-a995efde82c3" />
+  </Folder>
+  <Folder Name="/Services/Movie/">
+    <Project Path="Movie.Api/Movie.Api.csproj" />
+    <Project Path="Movie.Application/Movie.Application.csproj" />
+    <Project Path="Movie.Domain/Movie.Domain.csproj" />
+    <Project Path="Movie.Infrastructure/Movie.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/Services/Notification/">
+    <Project Path="Notification.Api/Notification.Api.csproj" />
+    <Project Path="Notification.Application/Notification.Application.csproj" Id="90bf5e6d-aeb7-49c9-a4c6-ccb79722d047" />
+    <Project Path="Notification.Domain/Notification.Domain.csproj" Id="871cc285-9dbc-4e80-ab5b-db643aa93876" />
+    <Project Path="Notification.Infrastructure/Notification.Infrastructure.csproj" Id="931622c9-b7a2-4f38-a726-f66e5f391bf4" />
+  </Folder>
+  <Folder Name="/Shared/">
+    <Project Path="Shared.Common/Shared.Common.csproj" Id="0a72ba8c-bcb3-4cc8-948b-a138ea763c1b" />
+    <Project Path="Shared.Contracts/Shared.Contracts.csproj" Id="8205dfbb-ca61-4b4c-9a06-3e70ef39f842" />
+  </Folder>
+  <Project Path="CinemaBooking.AppHost/CinemaBooking.AppHost.csproj" />
+  <Project Path="CinemaBooking.Server/ApiGateway.csproj" />
+  <Project Path="frontend/frontend.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+</Solution>
