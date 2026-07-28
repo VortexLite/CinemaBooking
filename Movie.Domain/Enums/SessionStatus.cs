@@ -4,7 +4,18 @@ using System.Text;
 
 namespace Movie.Domain.Enums
 {
-    internal class SessionStatus
+    public enum SessionStatus : byte
     {
+        Scheduled = 1,
+
+        OpenForBooking = 2,
+
+        SoldOut = 3,
+
+        Started = 4,
+
+        Finished = 5,
+
+        Cancelled = 6
     }
 }

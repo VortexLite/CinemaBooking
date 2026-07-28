@@ -1,10 +1,60 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Movie.Domain.Entities.Session;
+using Movie.Infrastructure.Persistence.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Movie.Infrastructure.Persistence.Configurations
 {
-    internal class SessionConfiguration
+    public class SessionConfiguration : IEntityTypeConfiguration<Session>
     {
+        public void Configure(EntityTypeBuilder<Session> builder)
+        {
+            builder.ToTable("Sessions");
+
+            builder.HasKey(x => x.Id);
+
+            builder.ConfigureAudit();
+
+            builder.Property(x => x.StartTime)
+                .IsRequired();
+
+            builder.Property(x => x.EndTime)
+                .IsRequired();
+
+            builder.Property(x => x.Price)
+                .HasPrecision(10, 2);
+
+            builder.Property(x => x.Status)
+                .HasConversion<byte>();
+
+            builder.Property(x => x.ProjectionType)
+                .HasConversion<byte>();
+
+            builder.Property(x => x.SoundFormat)
+                .HasConversion<byte>();
+
+            builder.Property(x => x.SubtitleType)
+                .HasConversion<byte>();
+
+            builder.HasOne(x => x.Movie)
+                .WithMany(x => x.Sessions)
+                .HasForeignKey(x => x.MovieId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(x => x.Hall)
+                .WithMany(x => x.Sessions)
+                .HasForeignKey(x => x.HallId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasIndex(x => new
+            {
+                x.MovieId,
+                x.HallId,
+                x.StartTime
+            });
+        }
     }
 }

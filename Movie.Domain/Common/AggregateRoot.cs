@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Movie.Domain.Common
+﻿namespace Movie.Domain.Common
 {
-    internal class AggregateRoot
+    public abstract class AggregateRoot : AuditableEntity
     {
+        private readonly List<IDomainEvent> _domainEvents = [];
+        public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
+        protected void Raise(IDomainEvent domainEvent) => _domainEvents.Add(domainEvent);
+        public void ClearEvents() => _domainEvents.Clear();
     }
 }

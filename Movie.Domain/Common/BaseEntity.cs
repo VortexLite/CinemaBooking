@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Movie.Domain.Common
+﻿namespace Movie.Domain.Common
 {
-    internal class BaseEntity
+    public abstract class BaseEntity
     {
+        public Guid Id { get; protected set; }
+
+        protected BaseEntity()
+        {
+            Id = Guid.CreateVersion7();
+        }
     }
 }
