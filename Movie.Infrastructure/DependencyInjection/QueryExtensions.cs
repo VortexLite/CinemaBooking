@@ -16,6 +16,8 @@ namespace Movie.Infrastructure.DependencyInjection
 
             services.AddScoped<IGenreQueries, GenreQueries>();
 
+            services.AddScoped<ILanguageQueries, LanguageQueries>();
+
             return services;
         }
     }

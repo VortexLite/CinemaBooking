@@ -109,6 +109,7 @@ namespace Movie.Infrastructure.Migrations
                     b.Property<string>("IsoCode")
                         .IsRequired()
                         .HasMaxLength(5)
+                        .IsUnicode(true)
                         .HasColumnType("character varying(5)");
 
                     b.Property<string>("Name")

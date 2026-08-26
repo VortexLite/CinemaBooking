@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Movie.Domain.Entities.Language
 {
-    public sealed class Language : AggregateRoot
+    public sealed partial class Language : AggregateRoot
     {
         public string Name { get; private set; } = null!;
         public string NativeName { get; private set; } = null!;

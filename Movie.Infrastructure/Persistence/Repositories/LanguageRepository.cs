@@ -32,11 +32,45 @@ namespace Movie.Infrastructure.Persistence.Repositories
                 cancellationToken);
         }
 
-        public async Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<bool> ExistsAsync(Guid id,
+            CancellationToken cancellationToken = default)
         {
             return await _context.Languages
                 .AnyAsync(x => x.Id == id, 
                 cancellationToken);
+        }
+
+        public async Task<Language?> GetByIdIncludingDeletedAsync(Guid id, 
+            CancellationToken cancellationToken = default)
+        {
+            return await _context.Languages
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync(x => x.Id == id,
+                    cancellationToken);
+        }
+
+        public async Task<bool> ExistsByNameAsync(string name, 
+            CancellationToken cancellationToken = default)
+        {
+            string normalizedName = name.Trim();
+
+            return await _context.Languages
+                .IgnoreQueryFilters()
+                .AnyAsync(x => EF.Functions.ILike(
+                    x.Name,
+                    normalizedName),
+                    cancellationToken);
+        }
+
+        public Task<bool> ExistsByIsoCodeAsync(string isoCode, 
+            CancellationToken cancellationToken = default)
+        {
+            string normalizedIsoCode = isoCode.Trim().ToUpperInvariant();
+
+            return _context.Languages
+                .IgnoreQueryFilters()
+                .AnyAsync(x => x.IsoCode == normalizedIsoCode,
+                    cancellationToken);
         }
     }
 }

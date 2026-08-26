@@ -11,12 +11,19 @@ namespace Movie.Application.Abstractions.Interfaces
         Task<List<Language>> GetAllAsync(
             CancellationToken cancellationToken = default);
 
-        Task<Language?> GetByIsoCodeAsync(
-            string isoCode,
+        Task<Language?> GetByIsoCodeAsync(string isoCode,
             CancellationToken cancellationToken = default);
 
-        Task<bool> ExistsAsync(
-            Guid id,
+        Task<bool> ExistsAsync(Guid id,
+            CancellationToken cancellationToken = default);
+
+        Task<Language?> GetByIdIncludingDeletedAsync(Guid id,
+            CancellationToken cancellationToken = default);
+
+        Task<bool> ExistsByNameAsync(string name,
+            CancellationToken cancellationToken = default);
+
+        Task<bool> ExistsByIsoCodeAsync(string isoCode,
             CancellationToken cancellationToken = default);
     }
 }

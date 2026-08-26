@@ -25,6 +25,7 @@ namespace Movie.Infrastructure.Persistence.Configurations
 
             builder.Property(x => x.IsoCode)
                 .HasMaxLength(5)
+                .IsUnicode()
                 .IsRequired();
 
             builder.HasIndex(x => x.IsoCode)
