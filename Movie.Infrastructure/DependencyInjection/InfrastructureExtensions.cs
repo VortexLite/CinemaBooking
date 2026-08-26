@@ -16,11 +16,15 @@ namespace Movie.Infrastructure.DependencyInjection
 
             services.AddDatabase(configuration);
 
-            services.AddCaching(configuration);
+            services.AddRedisCache(configuration);
 
             services.AddMessaging(configuration);
 
             services.AddRepositories();
+
+            services.AddQueries();
+
+            services.AddRabbitMq(configuration);
 
             return services;
         }

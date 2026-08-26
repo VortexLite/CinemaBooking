@@ -1,8 +1,8 @@
 ﻿using Movie.Domain.Common;
 using Movie.Domain.Entities.Language;
 using Movie.Domain.Enums;
-using Movie.Domain.Events.Movie;
-using Movie.Domain.Extensions;
+using Movie.Domain.Events.Movies;
+using Movie.Domain.Exceptions;
 
 namespace Movie.Domain.Entities.Movie
 {
@@ -18,10 +18,12 @@ namespace Movie.Domain.Entities.Movie
         public MovieStatus Status { get; private set; }
         public Guid LanguageId { get; private set; }
         public Language.Language Language { get; private set; } = null!;
-        public ICollection<MovieGenre.MovieGenre> MovieGenres { get; }
-            = new List<MovieGenre.MovieGenre>();
-        public ICollection<Session.Session> Sessions { get; }
-            = new List<Session.Session>();
+        private readonly List<MovieGenre.MovieGenre> _movieGenres = [];
+        public IReadOnlyCollection<MovieGenre.MovieGenre> MovieGenres
+            => _movieGenres;
+        private readonly List<Session.Session> _sessions = [];
+        public IReadOnlyCollection<Session.Session> Sessions
+            => _sessions;
 
         private Movie() { }
 
@@ -36,7 +38,12 @@ namespace Movie.Domain.Entities.Movie
             Guid languageId)
         {
             ValidateTitle(title);
+            ValidateDescription(description);
             ValidateDuration(durationMinutes);
+            ValidateAgeRestriction(ageRestriction);
+            ValidatePoster(posterUrl);
+            ValidateReleaseDate(releaseDate);
+            ValidateLanguage(languageId);
 
             Title = title.Trim();
             Description = description.Trim();
@@ -45,8 +52,8 @@ namespace Movie.Domain.Entities.Movie
             PosterUrl = posterUrl;
             TrailerUrl = trailerUrl;
             ReleaseDate = releaseDate;
-
             LanguageId = languageId;
+
             Status = MovieStatus.Draft;
 
             Raise(new MovieCreatedEvent(Id));

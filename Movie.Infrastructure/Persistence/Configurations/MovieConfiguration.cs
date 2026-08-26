@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Movie.Domain.Entities.Movie;
+using Movie.Domain.Entities.MovieGenre;
+using Movie.Domain.Entities.Session;
 using Movie.Infrastructure.Persistence.Extensions;
 using System;
 using System.Collections.Generic;
@@ -42,9 +45,6 @@ namespace Movie.Infrastructure.Persistence.Configurations
             builder.Property(x => x.Status)
                 .HasConversion<byte>();
 
-            builder.Property(x => x.Language)
-                .HasConversion<byte>();
-
             builder.HasMany(x => x.Sessions)
                 .WithOne(x => x.Movie)
                 .HasForeignKey(x => x.MovieId)
@@ -58,6 +58,14 @@ namespace Movie.Infrastructure.Persistence.Configurations
                 .WithMany(x => x.Movies)
                 .HasForeignKey(x => x.LanguageId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Metadata
+                .FindNavigation(nameof(Movie.Domain.Entities.Movie.Movie.MovieGenres))!
+                .SetPropertyAccessMode(PropertyAccessMode.Field);
+
+            builder.Metadata
+                .FindNavigation(nameof(Movie.Domain.Entities.Movie.Movie.Sessions))!
+                .SetPropertyAccessMode(PropertyAccessMode.Field);
 
             builder.HasIndex(x => x.Title);
         }

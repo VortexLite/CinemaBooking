@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Movie.Infrastructure.Persistence;
 using Movie.Infrastructure.Persistence.Seed;
 using System;
@@ -14,6 +15,8 @@ namespace Movie.Infrastructure.DependencyInjection
             await using (var scope = serviceProvider.CreateAsyncScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<MovieDbContext>();
+
+                await dbContext.Database.MigrateAsync();
 
                 await DatabaseSeeder.SeedAsync(dbContext);
             }

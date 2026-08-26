@@ -1,13 +1,18 @@
-﻿namespace Movie.Domain.Extensions
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Movie.Domain.Exceptions
 {
     public sealed class DomainException : Exception
     {
         public DomainException() { }
 
-        public DomainException(string message) 
+        public DomainException(string message)
             : base(message) { }
 
-        public DomainException(string message, Exception innerException) 
+        public DomainException(string message, Exception innerException)
             : base(message, innerException) { }
     }
+
 }

@@ -3,7 +3,7 @@ using Movie.Domain.Enums;
 
 namespace Movie.Domain.Entities.Seat
 {
-    public sealed class Seat : AggregateRoot
+    public sealed class Seat : AuditableEntity
     {
         public Guid HallId { get; private set; }
         public Hall.Hall Hall { get; private set; } = null!;
@@ -12,19 +12,16 @@ namespace Movie.Domain.Entities.Seat
         public SeatType SeatType { get; private set; }
 
         private Seat() { }
-        public static Seat Create(
+        public Seat(
             Guid hallId,
             ushort row,
             ushort number,
             SeatType seatType)
         {
-            return new Seat
-            {
-                HallId = hallId,
-                Row = row,
-                Number = number,
-                SeatType = seatType
-            };
+            HallId = hallId;
+            Row = row;
+            Number = number;
+            SeatType = seatType;
         }
     }
 }

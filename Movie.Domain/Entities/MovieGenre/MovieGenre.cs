@@ -2,7 +2,7 @@
 
 namespace Movie.Domain.Entities.MovieGenre
 {
-    public sealed class MovieGenre : AggregateRoot
+    public sealed class MovieGenre : AuditableEntity
     {
         public Guid MovieId { get; private set; }
         public Movie.Movie Movie { get; private set; } = null!;
@@ -10,7 +10,7 @@ namespace Movie.Domain.Entities.MovieGenre
         public Genre.Genre Genre { get; private set; } = null!;
 
         private MovieGenre() { }
-        public MovieGenre(
+        internal MovieGenre(
             Guid movieId,
             Guid genreId)
         {

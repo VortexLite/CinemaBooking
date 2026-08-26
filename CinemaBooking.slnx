@@ -18,15 +18,15 @@
     <Project Path="Movie.Domain/Movie.Domain.csproj" />
     <Project Path="Movie.Infrastructure/Movie.Infrastructure.csproj" />
   </Folder>
-  <Folder Name="/Services/Notification/">
+  <Folder Name="/Shared/">
+    <Project Path="Shared.Common/Shared.Common.csproj" Id="0a72ba8c-bcb3-4cc8-948b-a138ea763c1b" />
+    <Project Path="Shared.Contracts/Shared.Contracts.csproj" Id="8205dfbb-ca61-4b4c-9a06-3e70ef39f842" />
+  </Folder>
+  <Folder Name="/Shared/Notification/">
     <Project Path="Notification.Api/Notification.Api.csproj" />
     <Project Path="Notification.Application/Notification.Application.csproj" Id="90bf5e6d-aeb7-49c9-a4c6-ccb79722d047" />
     <Project Path="Notification.Domain/Notification.Domain.csproj" Id="871cc285-9dbc-4e80-ab5b-db643aa93876" />
     <Project Path="Notification.Infrastructure/Notification.Infrastructure.csproj" Id="931622c9-b7a2-4f38-a726-f66e5f391bf4" />
-  </Folder>
-  <Folder Name="/Shared/">
-    <Project Path="Shared.Common/Shared.Common.csproj" Id="0a72ba8c-bcb3-4cc8-948b-a138ea763c1b" />
-    <Project Path="Shared.Contracts/Shared.Contracts.csproj" Id="8205dfbb-ca61-4b4c-9a06-3e70ef39f842" />
   </Folder>
   <Project Path="CinemaBooking.AppHost/CinemaBooking.AppHost.csproj" />
   <Project Path="CinemaBooking.Server/ApiGateway.csproj" />

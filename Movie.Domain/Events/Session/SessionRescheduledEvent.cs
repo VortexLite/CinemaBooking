@@ -8,15 +8,19 @@ namespace Movie.Domain.Events.Session
     public sealed class SessionRescheduledEvent : DomainEvent
     {
         public Guid SessionId { get; }
-        public DateTime OldStartTime { get; }
-        public DateTime NewStartTime { get; }
-        public SessionRescheduledEvent(Guid sessionId, 
-            DateTime oldStartTime, 
-            DateTime newStartTime)
+
+        public DateTime StartTime { get; }
+
+        public DateTime EndTime { get; }
+
+        public SessionRescheduledEvent(
+            Guid sessionId,
+            DateTime startTime,
+            DateTime endTime)
         {
             SessionId = sessionId;
-            OldStartTime = oldStartTime;
-            NewStartTime = newStartTime;
+            StartTime = startTime;
+            EndTime = endTime;
         }
     }
 }

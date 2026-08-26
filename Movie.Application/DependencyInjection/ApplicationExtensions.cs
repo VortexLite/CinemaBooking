@@ -7,7 +7,12 @@ namespace Movie.Application.DependencyInjection
         public static IServiceCollection AddApplication(
             this IServiceCollection services)
         {
-            
+            services.AddMediatR();
+
+            services.AddValidation();
+
+            services.AddMapster();
+
             return services;
         }
     }

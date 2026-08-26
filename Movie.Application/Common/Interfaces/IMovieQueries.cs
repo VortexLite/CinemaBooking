@@ -1,0 +1,21 @@
+﻿using Movie.Application.Features.Movies.Queries.GetMovie;
+using Movie.Application.Features.Movies.Queries.GetMovies;
+using Shared.Common.Models;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Movie.Application.Common.Interfaces
+{
+    public interface IMovieQueries
+    {
+        Task<GetMovieResponse?> GetMovieAsync(
+        Guid id,
+        CancellationToken cancellationToken = default);
+
+        Task<PagedResult<GetMoviesResponse>> GetMoviesAsync(
+            GetMoviesQuery query,
+            CancellationToken cancellationToken = default);
+
+    }
+}

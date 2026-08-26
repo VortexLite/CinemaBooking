@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Movie.Domain.Entities.Genre;
+using Movie.Domain.Entities.MovieGenre;
+using Movie.Domain.Entities.Session;
 using Movie.Infrastructure.Persistence.Extensions;
 using System;
 using System.Collections.Generic;
@@ -24,6 +26,10 @@ namespace Movie.Infrastructure.Persistence.Configurations
             
             builder.HasIndex(x => x.Name)
                 .IsUnique();
+
+            builder.Metadata
+                .FindNavigation(nameof(Genre.MovieGenres))!
+                .SetPropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

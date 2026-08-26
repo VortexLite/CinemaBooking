@@ -1,22 +1,25 @@
 ﻿using Movie.Domain.Common;
-using Movie.Domain.Extensions;
+using Movie.Domain.Events.Genre;
+using Movie.Domain.Exceptions;
 
 namespace Movie.Domain.Entities.Genre
 {
-    public sealed class Genre : AggregateRoot
+    public sealed partial class Genre : AggregateRoot
     {
         public string Name { get; private set; } = string.Empty;
-        public ICollection<MovieGenre.MovieGenre> MovieGenres { get; } 
-            = new List<MovieGenre.MovieGenre>();
+        private readonly List<MovieGenre.MovieGenre> _movieGenres = [];
+        public IReadOnlyCollection<MovieGenre.MovieGenre> MovieGenres
+            => _movieGenres;
 
         private Genre() { }
 
         public Genre(string name)
         {
-            if (string.IsNullOrEmpty(name))
-                throw new DomainException("Genre name is required");
+            ValidateName(name);
 
             Name = name.Trim();
+
+            Raise(new GenreCreatedEvent(Id));
         }
     }
 }

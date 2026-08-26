@@ -8,9 +8,25 @@ var webfrontend = builder.AddViteApp("webfrontend", "../frontend")
     .WithReference(server)
     .WaitFor(server);
 
+var postgres = builder
+    .AddPostgres("postgres")
+    .WithPgAdmin()
+    .WithDataVolume()
+    .AddDatabase("MovieDatabase");
+
+var redis = builder.AddRedis("redis");
+
+var rabbit = builder.AddRabbitMQ("rabbitmq");
+
 server.PublishWithContainerFiles(webfrontend, "wwwroot");
 
-builder.AddProject<Projects.Movie_Api>("movie-api");
+builder.AddProject<Projects.Movie_Api>("movie-api")
+    .WithReference(postgres)
+    .WaitFor(postgres)
+    .WithReference(redis)
+    .WaitFor(redis)
+    .WithReference(rabbit)
+    .WaitFor(rabbit);
 
 builder.AddProject<Projects.Booking_Api>("booking-api");
 

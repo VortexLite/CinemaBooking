@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Movie.Domain.Common;
 using System;
@@ -27,18 +28,7 @@ namespace Movie.Infrastructure.Persistence.Interceptors
                     result,
                     cancellationToken);
 
-            var aggregates = eventData.Context.ChangeTracker
-                .Entries<AggregateRoot>()
-                .Select(x => x.Entity)
-                .Where(x => x.DomainEvents.Any())
-                .ToList();
-
-            var domainEvents = aggregates
-                .SelectMany(x => x.DomainEvents)
-                .ToList();
-
-            foreach (var aggregate in aggregates)
-                aggregate.ClearEvents();
+            var domainEvents = GetDomainEvents(eventData.Context);
 
             foreach (var domainEvent in domainEvents)
                 await _publisher.Publish(domainEvent, cancellationToken);
@@ -47,6 +37,26 @@ namespace Movie.Infrastructure.Persistence.Interceptors
                 eventData,
                 result,
                 cancellationToken);
+        }
+
+        private static List<IDomainEvent> GetDomainEvents(DbContext context)
+        {
+            var aggregates = context.ChangeTracker
+                .Entries<AggregateRoot>()
+                .Select(x => x.Entity)
+                .Where(x => x.DomainEvents.Count > 0)
+                .ToList();
+
+            var events = aggregates
+                .SelectMany(x => x.DomainEvents)
+                .ToList();
+
+            foreach (var aggregate in aggregates)
+            {
+                aggregate.ClearEvents();
+            }
+
+            return events;
         }
     }
 }

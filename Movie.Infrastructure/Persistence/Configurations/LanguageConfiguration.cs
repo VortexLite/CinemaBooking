@@ -2,9 +2,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Movie.Domain.Entities.Language;
 using Movie.Infrastructure.Persistence.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.Persistence.Configurations
 {
@@ -37,6 +34,10 @@ namespace Movie.Infrastructure.Persistence.Configurations
                 .WithOne(x => x.Language)
                 .HasForeignKey(x => x.LanguageId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Metadata
+                .FindNavigation(nameof(Language.Movies))!
+                .SetPropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

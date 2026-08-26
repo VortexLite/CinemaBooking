@@ -8,15 +8,15 @@ namespace Movie.Domain.Events.Session
     public sealed class SessionPriceChangedEvent : DomainEvent
     {
         public Guid SessionId { get; }
-        public decimal OldPrice { get; }
-        public decimal NewPrice { get; }
-        public SessionPriceChangedEvent(Guid sessionId, 
-            decimal oldPrice, 
-            decimal newPrice)
+
+        public decimal Price { get; }
+
+        public SessionPriceChangedEvent(
+            Guid sessionId,
+            decimal price)
         {
             SessionId = sessionId;
-            OldPrice = oldPrice;
-            NewPrice = newPrice;
+            Price = price;
         }
     }
 }
