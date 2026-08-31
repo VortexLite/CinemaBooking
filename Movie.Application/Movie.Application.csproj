@@ -8,8 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Abstractions\" />
-    <Folder Include="Features\Halls\Commands\" />
-    <Folder Include="Features\Halls\Queries\" />
     <Folder Include="Features\Movies\Commands\AddGenreToMovie\" />
     <Folder Include="Features\Movies\Commands\RemoveGenreFromMovie\" />
     <Folder Include="Features\Movies\Commands\ChangeMovieLanguage\" />

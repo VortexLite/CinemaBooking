@@ -3,7 +3,7 @@ using Movie.Domain.Enums;
 
 namespace Movie.Domain.Entities.Seat
 {
-    public sealed class Seat : AuditableEntity
+    public sealed partial class Seat : AuditableEntity
     {
         public Guid HallId { get; private set; }
         public Hall.Hall Hall { get; private set; } = null!;
@@ -12,12 +12,13 @@ namespace Movie.Domain.Entities.Seat
         public SeatType SeatType { get; private set; }
 
         private Seat() { }
-        public Seat(
+        internal Seat(
             Guid hallId,
             ushort row,
             ushort number,
             SeatType seatType)
         {
+            Id = Guid.NewGuid();
             HallId = hallId;
             Row = row;
             Number = number;

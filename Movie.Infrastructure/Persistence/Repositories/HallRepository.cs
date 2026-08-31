@@ -14,16 +14,17 @@ namespace Movie.Infrastructure.Persistence.Repositories
         public HallRepository(MovieDbContext context)
             : base(context) { }
 
-        public async Task<List<Hall>> GetAllAsync(
+        public async Task<Hall?> GetWithSeatsAsync(Guid id,
             CancellationToken cancellationToken = default)
         {
             return await _context.Halls
-                .AsNoTracking()
-                 .OrderBy(x => x.Name)
-                 .ToListAsync(cancellationToken);
+                .Include(x => x.Seats)
+                .FirstOrDefaultAsync(
+                    x => x.Id == id,
+                    cancellationToken);
         }
 
-        public async Task<Hall?> GetWithSeatAndSessionAsync(
+        public async Task<Hall?> GetWithSeatsAndSessionsAsync(
             Guid id, 
             CancellationToken cancellationToken = default)
         {
@@ -31,16 +32,41 @@ namespace Movie.Infrastructure.Persistence.Repositories
                 .Include(x => x.Seats)
                 .Include(x => x.Sessions)
                 .FirstOrDefaultAsync(x => x.Id == id,
-                cancellationToken);
+                    cancellationToken);
         }
 
-        public async Task<bool> NameExistAsync(
+        public async Task<bool> ExistsByNameAsync(
             string name, 
             CancellationToken cancellationToken = default)
         {
+            string normalizedName = name.Trim();
+
             return await _context.Halls
-                 .AnyAsync(x => x.Name == name,
+                .IgnoreQueryFilters()
+                 .AnyAsync(x => EF.Functions.ILike(
+                     x.Name,
+                     normalizedName),
                  cancellationToken);
+        }
+
+        public async Task<Hall?> GetByIdIncludingDeletedAsync(Guid id, 
+            CancellationToken cancellationToken = default)
+        {
+            return await _context.Halls
+                .IgnoreQueryFilters()
+                .Include(x => x.Seats)
+                .FirstOrDefaultAsync(x => x.Id == id,
+                    cancellationToken);
+        }
+
+        public async Task<bool> HasFutureSessionsAsync(Guid hallId, 
+            CancellationToken cancellationToken = default)
+        {
+            return await _context.Sessions
+                .AnyAsync(x =>
+                    x.HallId == hallId &&
+                    x.StartTime > DateTime.UtcNow,
+                    cancellationToken);
         }
     }
 }

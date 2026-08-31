@@ -24,8 +24,6 @@ namespace Movie.Infrastructure.Persistence.Seed
 
             await HallSeeder.SeedAsync(context);
 
-            await SeatSeeder.SeedAsync(context);
-
             await SessionSeeder.SeedAsync(context);
         }
     }

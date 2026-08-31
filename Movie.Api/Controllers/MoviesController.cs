@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Movie.Api.Contracts;
+using Movie.Api.Contracts.Movies;
 using Movie.Application.Features.Movies.Commands.ArchiveMovie;
 using Movie.Application.Features.Movies.Commands.CreateMovie;
 using Movie.Application.Features.Movies.Commands.DeleteMovie;

@@ -27,10 +27,6 @@ namespace Movie.Infrastructure.Persistence.Configurations
             builder.Property(x => x.SeatType)
                 .HasConversion<byte>();
 
-            builder.HasOne(x => x.Hall)
-                .WithMany(x => x.Seats)
-                .HasForeignKey(x => x.HallId);
-
             builder.HasIndex(x => new
             {
                 x.HallId,

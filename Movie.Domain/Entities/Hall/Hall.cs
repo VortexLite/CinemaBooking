@@ -26,17 +26,13 @@ namespace Movie.Domain.Entities.Hall
             ushort rows,
             ushort columns)
         {
-            if (string.IsNullOrWhiteSpace(name))
-                throw new DomainException("Name is required.");
-            if (rows == 0)
-                throw new DomainException("Rows cannot be zero.");
+            Validate(name, rows, columns);
 
-            if (columns == 0)
-                throw new DomainException("Columns cannot be zero.");
-
-            Name = name;
+            Name = NormalizeName(name);
             Rows = rows;
             Columns = columns;
+
+            GenerateSeats();
 
             Raise(new HallCreatedEvent(Id));
         }

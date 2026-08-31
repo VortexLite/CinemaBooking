@@ -8,15 +8,21 @@ namespace Movie.Application.Abstractions.Interfaces
     public interface IHallRepository
         : IBaseRepository<Hall>
     {
-        Task<Hall?> GetWithSeatAndSessionAsync(
+        Task<Hall?> GetWithSeatsAndSessionsAsync(
             Guid id,
             CancellationToken cancellationToken = default);
 
-        Task<List<Hall>> GetAllAsync(
-            CancellationToken cancellationToken = default);
-
-        Task<bool> NameExistAsync(
+        Task<bool> ExistsByNameAsync(
             string name,
             CancellationToken cancellationToken= default);
+
+        Task<Hall?> GetByIdIncludingDeletedAsync(Guid id,
+            CancellationToken cancellationToken = default);
+
+        Task<bool> HasFutureSessionsAsync(Guid hallId,
+            CancellationToken cancellationToken = default);
+
+        Task<Hall?> GetWithSeatsAsync(Guid id,
+            CancellationToken cancellationToken = default);
     }
 }

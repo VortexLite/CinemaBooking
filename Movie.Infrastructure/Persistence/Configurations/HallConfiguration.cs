@@ -22,8 +22,10 @@ namespace Movie.Infrastructure.Persistence.Configurations
             builder.ConfigureAudit();
 
             builder.Property(x => x.Name)
-                .HasMaxLength(50)
+                .HasMaxLength(100)
                 .IsRequired();
+
+            builder.HasIndex(x => x.Name);
 
             builder.Property(x => x.Rows)
                 .IsRequired();
@@ -36,19 +38,21 @@ namespace Movie.Infrastructure.Persistence.Configurations
 
             builder.HasMany(x => x.Seats)
                 .WithOne(x => x.Hall)
-                .HasForeignKey(x => x.HallId);
+                .HasForeignKey(x => x.HallId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(x => x.Sessions)
                 .WithOne(x => x.Hall)
-                .HasForeignKey(x => x.HallId);
+                .HasForeignKey(x => x.HallId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Metadata
-                .FindNavigation(nameof(Hall.Seats))!
-                .SetPropertyAccessMode(PropertyAccessMode.Field);
+            builder.Navigation(x => x.Seats)
+                .UsePropertyAccessMode(PropertyAccessMode.Field);
 
-            builder.Metadata
-                .FindNavigation(nameof(Hall.Sessions))!
-                .SetPropertyAccessMode(PropertyAccessMode.Field);
+            builder.Navigation(x => x.Sessions)
+                .UsePropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

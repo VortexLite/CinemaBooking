@@ -10,8 +10,8 @@ namespace Movie.Domain.Enums
 
         VIP = 2,
 
-        Couple = 3,
+        Premium = 3,
 
-        Accessible = 4
+        LoveSeat = 4
     }
 }

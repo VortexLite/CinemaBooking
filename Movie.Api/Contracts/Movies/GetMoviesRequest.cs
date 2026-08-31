@@ -1,6 +1,6 @@
 ﻿using Movie.Domain.Enums;
 
-namespace Movie.Api.Contracts
+namespace Movie.Api.Contracts.Movies
 {
     public sealed class GetMoviesRequest
     {

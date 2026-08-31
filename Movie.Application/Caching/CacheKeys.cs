@@ -18,6 +18,9 @@ namespace Movie.Application.Caching
         public const string LanguagePrefix = "language:";
         public const string LanguagesPrefix = "languages:";
 
+        public const string HallPrefix = "hall:";
+        public const string HallsPrefix = "halls:";
+
         #endregion
 
         #region Movies
@@ -66,6 +69,16 @@ namespace Movie.Application.Caching
 
         public static string Languages(bool includeDeleted) 
             => $"{LanguagesPrefix}deleted:{includeDeleted}";
+
+        #endregion
+
+        #region Halls
+
+        public static string Hall(Guid id)
+            => $"{HallPrefix}{id}";
+
+        public static string Halls(bool includeDeleted)
+            => $"{HallsPrefix}deleted:{includeDeleted}";
 
         #endregion
     }

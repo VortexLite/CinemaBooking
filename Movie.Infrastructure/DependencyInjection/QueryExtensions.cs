@@ -18,6 +18,8 @@ namespace Movie.Infrastructure.DependencyInjection
 
             services.AddScoped<ILanguageQueries, LanguageQueries>();
 
+            services.AddScoped<IHallQueries, HallQueries>();
+
             return services;
         }
     }
