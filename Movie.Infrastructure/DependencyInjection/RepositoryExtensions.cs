@@ -1,9 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Movie.Application.Abstractions.Interfaces;
 using Movie.Infrastructure.Persistence.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.DependencyInjection
 {

@@ -2,11 +2,7 @@
 using Movie.Application.Abstractions.Interfaces;
 using Movie.Domain.Common;
 using Movie.Domain.Entities.Language;
-using Movie.Domain.Exceptions;
 using Shared.Common.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Features.Languages.Commands.UpdateLanguage
 {
@@ -39,7 +35,7 @@ namespace Movie.Application.Features.Languages.Commands.UpdateLanguage
                 language.Name,
                 request.Name.Trim(),
                 StringComparison.OrdinalIgnoreCase))
-                throw new DomainException($"Language '{request.Name}' already exists.");
+                throw new BusinessRuleException($"Language '{request.Name}' already exists.");
 
             var normalizedIso = request.IsoCode.Trim().ToUpperInvariant();
 
@@ -47,7 +43,7 @@ namespace Movie.Application.Features.Languages.Commands.UpdateLanguage
                 cancellationToken);
 
             if (isoExists && language.IsoCode != normalizedIso)
-                throw new DomainException($"Language with ISO code '{request.IsoCode}' already exists.");
+                throw new BusinessRuleException($"Language with ISO code '{request.IsoCode}' already exists.");
 
             language.Update(request.Name,
                 request.NativeName,

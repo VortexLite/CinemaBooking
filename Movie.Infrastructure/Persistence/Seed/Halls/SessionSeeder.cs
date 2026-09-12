@@ -1,7 +1,4 @@
 ﻿using Movie.Domain.Entities.Session;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Movie.Domain.Enums;
 

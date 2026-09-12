@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Movie.Application.Abstractions.Interfaces;
 using Movie.Domain.Entities.Hall;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.Persistence.Repositories
 {
@@ -24,8 +21,7 @@ namespace Movie.Infrastructure.Persistence.Repositories
                     cancellationToken);
         }
 
-        public async Task<Hall?> GetWithSeatsAndSessionsAsync(
-            Guid id, 
+        public async Task<Hall?> GetWithSeatsAndSessionsAsync(Guid id, 
             CancellationToken cancellationToken = default)
         {
             return await _context.Halls
@@ -35,8 +31,7 @@ namespace Movie.Infrastructure.Persistence.Repositories
                     cancellationToken);
         }
 
-        public async Task<bool> ExistsByNameAsync(
-            string name, 
+        public async Task<bool> ExistsByNameAsync(string name, 
             CancellationToken cancellationToken = default)
         {
             string normalizedName = name.Trim();

@@ -1,8 +1,5 @@
 ﻿using Movie.Application.Common.Interfaces;
 using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.Caching
 {
@@ -31,11 +28,9 @@ namespace Movie.Infrastructure.Caching
         public async Task<IReadOnlyCollection<string>> GetKeysAsync(string tag, 
             CancellationToken cancellationToken = default)
         {
-            RedisValue[] values = await _database.SetMembersAsync(
-                $"tag:{tag}");
+            RedisValue[] values = await _database.SetMembersAsync($"tag:{tag}");
 
-            return values.Select(x => x.ToString())
-                .ToArray();
+            return values.Select(x => x.ToString()).ToArray();
         }
 
         public async Task RemoveTagAsync(string tag, 
@@ -44,9 +39,7 @@ namespace Movie.Infrastructure.Caching
             var keys = await _database.SetMembersAsync($"tag:{tag}");
 
             foreach (var key in keys)
-            {
                 await _database.SetRemoveAsync($"key:{key}", tag);
-            }
 
             await _database.KeyDeleteAsync($"tag:{tag}");
         }
@@ -54,19 +47,12 @@ namespace Movie.Infrastructure.Caching
         public async Task RemoveKeyAsync(string key,
             CancellationToken cancellationToken = default)
         {
-            RedisValue[] tags =
-                await _database.SetMembersAsync(
-                    $"key:{key}");
+            RedisValue[] tags = await _database.SetMembersAsync($"key:{key}");
 
             foreach (var tag in tags)
-            {
-                await _database.SetRemoveAsync(
-                    $"tag:{tag}",
-                    key);
-            }
+                await _database.SetRemoveAsync($"tag:{tag}", key);
 
-            await _database.KeyDeleteAsync(
-                $"key:{key}");
+            await _database.KeyDeleteAsync($"key:{key}");
         }
     }
 }

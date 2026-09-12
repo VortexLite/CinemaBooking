@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Movie.Application.Features.Movies.Queries.GetMovies
+﻿namespace Movie.Application.Features.Movies.Queries.GetMovies
 {
     public sealed class GetMoviesResponse
     {

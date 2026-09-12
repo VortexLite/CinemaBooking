@@ -2,9 +2,6 @@
 using Movie.Application.Abstractions.Interfaces;
 using Movie.Application.Caching;
 using Movie.Domain.Events.Movies;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Features.Movies.Events
 {
@@ -36,9 +33,7 @@ namespace Movie.Application.Features.Movies.Events
         public async Task Handle(MovieCreatedEvent notification,
             CancellationToken cancellationToken)
         {
-            await _cacheService.RemoveByTagAsync(
-                CacheTags.Movies,
-                cancellationToken);
+            await _cacheService.RemoveByTagAsync(CacheTags.Movies, cancellationToken);
         }
 
         public async Task Handle(MovieDeletedEvent notification,
@@ -62,9 +57,7 @@ namespace Movie.Application.Features.Movies.Events
         public async Task Handle(MovieAgeRestrictionChangedEvent notification, 
             CancellationToken cancellationToken)
         {
-            await InvalidateMovieAsync(
-                notification.MovieId,
-                cancellationToken);
+            await InvalidateMovieAsync(notification.MovieId, cancellationToken);
         }
 
         public async Task Handle(MovieArchivedEvent notification, 
@@ -76,49 +69,37 @@ namespace Movie.Application.Features.Movies.Events
         public async Task Handle(MovieDescriptionChangedEvent notification, 
             CancellationToken cancellationToken)
         {
-            await InvalidateMovieAsync(
-                notification.MovieId,
-                cancellationToken);
+            await InvalidateMovieAsync(notification.MovieId, cancellationToken);
         }
 
         public async Task Handle(MovieDurationChangedEvent notification,
             CancellationToken cancellationToken)
         {
-            await InvalidateMovieAsync(
-                notification.MovieId,
-                cancellationToken);
+            await InvalidateMovieAsync(notification.MovieId, cancellationToken);
         }
 
         public async Task Handle(MovieGenreAddedEvent notification, 
             CancellationToken cancellationToken)
         {
-            await InvalidateMovieAsync(
-                notification.MovieId,
-                cancellationToken);
+            await InvalidateMovieAsync(notification.MovieId, cancellationToken);
         }
 
         public async Task Handle(MovieGenreRemovedEvent notification,
             CancellationToken cancellationToken)
         {
-            await InvalidateMovieAsync(
-                notification.MovieId,
-                cancellationToken);
+            await InvalidateMovieAsync(notification.MovieId, cancellationToken);
         }
 
         public async Task Handle(MovieLanguageChangedEvent notification,
             CancellationToken cancellationToken)
         {
-            await InvalidateMovieAsync(
-                notification.MovieId,
-                cancellationToken);
+            await InvalidateMovieAsync(notification.MovieId, cancellationToken);
         }
 
         public async Task Handle(MoviePosterChangedEvent notification, 
             CancellationToken cancellationToken)
         {
-            await InvalidateMovieAsync(
-                notification.MovieId,
-                cancellationToken);
+            await InvalidateMovieAsync(notification.MovieId, cancellationToken);
         }
 
         public async Task Handle(MovieTitleChangedEvent notification, 
@@ -130,41 +111,29 @@ namespace Movie.Application.Features.Movies.Events
         public async Task Handle(MovieTrailerChangedEvent notification,
             CancellationToken cancellationToken)
         {
-            await InvalidateMovieAsync(
-                notification.MovieId,
-                cancellationToken);
+            await InvalidateMovieAsync(notification.MovieId, cancellationToken);
         }
 
         public async Task Handle(MovieReleaseDateChangedEvent notification, 
             CancellationToken cancellationToken)
         {
-            await InvalidateMovieAsync(
-                notification.MovieId,
-                cancellationToken);
+            await InvalidateMovieAsync(notification.MovieId, cancellationToken);
         }
 
         private async Task InvalidateMovieAsync(Guid movieId,
             CancellationToken cancellationToken)
         {
-            await _cacheService.RemoveByTagAsync(
-                CacheTags.Movie(movieId),
-                cancellationToken);
+            await _cacheService.RemoveByTagAsync(CacheTags.Movie(movieId), cancellationToken);
 
-            await _cacheService.RemoveByTagAsync(
-                CacheTags.Movies,
-                cancellationToken);
+            await _cacheService.RemoveByTagAsync(CacheTags.Movies, cancellationToken);
         }
 
         private async Task InvalidateMovieAndSessionsAsync(Guid movieId,
             CancellationToken cancellationToken)
         {
-            await InvalidateMovieAsync(
-                movieId,
-                cancellationToken);
+            await InvalidateMovieAsync(movieId, cancellationToken);
 
-            await _cacheService.RemoveByTagAsync(
-                CacheTags.Sessions,
-                cancellationToken);
+            await _cacheService.RemoveByTagAsync(CacheTags.Sessions, cancellationToken);
         }
     }
 }

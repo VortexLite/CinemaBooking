@@ -1,7 +1,4 @@
 ﻿using Movie.Domain.Entities.Genre;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Abstractions.Interfaces
 {

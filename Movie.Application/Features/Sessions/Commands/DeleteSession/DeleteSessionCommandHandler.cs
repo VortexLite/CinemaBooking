@@ -3,9 +3,6 @@ using Movie.Application.Abstractions.Interfaces;
 using Movie.Domain.Common;
 using Movie.Domain.Entities.Session;
 using Shared.Common.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Features.Sessions.Commands.DeleteSession
 {
@@ -28,8 +25,7 @@ namespace Movie.Application.Features.Sessions.Commands.DeleteSession
         public async Task Handle(DeleteSessionCommand request, 
             CancellationToken cancellationToken)
         {
-            var session = await _sessionRepository.GetByIdAsync(request.Id, 
-                cancellationToken);
+            var session = await _sessionRepository.GetByIdAsync(request.Id, cancellationToken);
 
             if (session is null)
                 throw new NotFoundException(nameof(Session), request.Id);

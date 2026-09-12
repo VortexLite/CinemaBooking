@@ -1,8 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Movie.Infrastructure.Persistence;
-using Movie.Infrastructure.Persistence.Interceptors;
 
 namespace Movie.Infrastructure.DependencyInjection
 {

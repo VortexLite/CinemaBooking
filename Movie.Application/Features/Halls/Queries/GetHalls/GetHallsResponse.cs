@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Movie.Application.Features.Halls.Queries.GetHalls
+﻿namespace Movie.Application.Features.Halls.Queries.GetHalls
 {
     public sealed class GetHallsResponse
     {

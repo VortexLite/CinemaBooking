@@ -2,11 +2,7 @@
 using Movie.Application.Abstractions.Interfaces;
 using Movie.Domain.Common;
 using Movie.Domain.Entities.Genre;
-using Movie.Domain.Exceptions;
 using Shared.Common.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Features.Genres.Commands.CreateGenre
 {
@@ -27,9 +23,8 @@ namespace Movie.Application.Features.Genres.Commands.CreateGenre
         public async Task<Guid> Handle(CreateGenreCommand request, 
             CancellationToken cancellationToken)
         {
-            if (await _genreRepository.ExistsByNameAsync(request.Name,
-                    cancellationToken))
-                throw new DomainException($"Genre '{request.Name}' already exists.");
+            if (await _genreRepository.ExistsByNameAsync(request.Name, cancellationToken))
+                throw new BusinessRuleException($"Genre '{request.Name}' already exists.");
 
             var genre = new Genre(request.Name);
 

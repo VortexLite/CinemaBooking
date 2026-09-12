@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Movie.Application.Abstractions.Interfaces;
 using Movie.Domain.Entities.Language;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.Persistence.Repositories
 {

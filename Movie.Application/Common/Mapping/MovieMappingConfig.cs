@@ -1,9 +1,6 @@
 ﻿using Mapster;
 using Movie.Application.Features.Movies.Queries.GetMovie;
 using Movie.Application.Features.Movies.Queries.GetMovies;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Common.Mapping
 {

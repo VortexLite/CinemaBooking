@@ -1,8 +1,6 @@
 using Movie.Api.Extensions;
 using Movie.Application.DependencyInjection;
 using Movie.Infrastructure.DependencyInjection;
-using Movie.Infrastructure.Persistence;
-using Movie.Infrastructure.Persistence.Seed;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);

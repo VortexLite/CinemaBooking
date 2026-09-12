@@ -1,8 +1,5 @@
 ﻿using MediatR;
 using Movie.Application.Common.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Features.Halls.Queries.GetHalls
 {
@@ -19,9 +16,7 @@ namespace Movie.Application.Features.Halls.Queries.GetHalls
         public async Task<List<GetHallsResponse>> Handle(GetHallsQuery request, 
             CancellationToken cancellationToken)
         {
-            return await _hallQueries.GetHallsAsync(
-                request.IncludeDeleted,
-                cancellationToken);
+            return await _hallQueries.GetHallsAsync(request.IncludeDeleted, cancellationToken);
         }
     }
 }

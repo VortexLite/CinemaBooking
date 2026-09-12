@@ -1,8 +1,5 @@
 ﻿using Movie.Domain.Common;
 using Movie.Domain.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Domain.Entities.Language
 {
@@ -11,6 +8,7 @@ namespace Movie.Domain.Entities.Language
         public string Name { get; private set; } = null!;
         public string NativeName { get; private set; } = null!;
         public string IsoCode { get; private set; } = null!;
+
         private readonly List<Movie.Movie> _movies = [];
         public IReadOnlyCollection<Movie.Movie> Movies
             => _movies;

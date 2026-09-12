@@ -8,9 +8,6 @@ using Movie.Domain.Entities.Seat;
 using Movie.Domain.Entities.Session;
 using Movie.Infrastructure.Persistence.Extensions;
 using Movie.Infrastructure.Persistence.Outbox;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.Persistence
 {

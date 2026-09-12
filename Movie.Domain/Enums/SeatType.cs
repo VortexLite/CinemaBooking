@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Movie.Domain.Enums
+﻿namespace Movie.Domain.Enums
 {
     public enum SeatType : byte
     {

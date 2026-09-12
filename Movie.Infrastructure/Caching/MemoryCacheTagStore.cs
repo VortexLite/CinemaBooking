@@ -1,8 +1,5 @@
 ﻿using Movie.Application.Common.Interfaces;
-using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.Caching
 {
@@ -18,8 +15,7 @@ namespace Movie.Infrastructure.Caching
         {
             foreach (var tag in tags)
             {
-                var keys = _tags.GetOrAdd(tag,
-                    _ => new ConcurrentDictionary<string, byte>());
+                var keys = _tags.GetOrAdd(tag, _ => new ConcurrentDictionary<string, byte>());
 
                 keys.TryAdd(key, 0);
             }
@@ -31,13 +27,9 @@ namespace Movie.Infrastructure.Caching
             CancellationToken cancellationToken = default)
         {
             if (_tags.TryGetValue(tag, out var keys))
-            {
-                return Task.FromResult<IReadOnlyCollection<string>>(
-                    keys.Keys.ToArray());
-            }
+                return Task.FromResult<IReadOnlyCollection<string>>(keys.Keys.ToArray());
 
-            return Task.FromResult<IReadOnlyCollection<string>>(
-                Array.Empty<string>());
+            return Task.FromResult<IReadOnlyCollection<string>>(Array.Empty<string>());
         }
 
         public Task RemoveTagAsync(string tag, 
@@ -52,9 +44,7 @@ namespace Movie.Infrastructure.Caching
             CancellationToken cancellationToken = default)
         {
             foreach (var tag in _tags.Values)
-            {
                 tag.TryRemove(key, out _);
-            }
 
             return Task.CompletedTask;
         }

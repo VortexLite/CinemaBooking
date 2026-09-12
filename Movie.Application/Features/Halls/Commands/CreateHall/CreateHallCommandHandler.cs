@@ -2,10 +2,7 @@
 using Movie.Application.Abstractions.Interfaces;
 using Movie.Domain.Common;
 using Movie.Domain.Entities.Hall;
-using Movie.Domain.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Shared.Common.Exceptions;
 
 namespace Movie.Application.Features.Halls.Commands.CreateHall
 {
@@ -26,17 +23,15 @@ namespace Movie.Application.Features.Halls.Commands.CreateHall
         public async Task<Guid> Handle(CreateHallCommand request, 
             CancellationToken cancellationToken)
         {
-            if (await _hallRepository.ExistsByNameAsync(request.Name,
-                cancellationToken))
-                throw new DomainException($"Hall '{request.Name}' already exists.");
+            if (await _hallRepository.ExistsByNameAsync(request.Name, cancellationToken))
+                throw new BusinessRuleException($"Hall '{request.Name}' already exists.");
 
             var hall = new Hall(
                 request.Name,
                 request.Rows,
                 request.Columns);
 
-            await _hallRepository.AddAsync(hall,
-                cancellationToken);
+            await _hallRepository.AddAsync(hall, cancellationToken);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

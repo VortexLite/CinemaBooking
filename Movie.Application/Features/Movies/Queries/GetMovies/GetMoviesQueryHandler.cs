@@ -1,9 +1,6 @@
 ﻿using MediatR;
 using Movie.Application.Common.Interfaces;
 using Shared.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Features.Movies.Queries.GetMovies
 {
@@ -18,13 +15,10 @@ namespace Movie.Application.Features.Movies.Queries.GetMovies
             _movieQueries = movieQueries;
         }
 
-        public async Task<PagedResult<GetMoviesResponse>> Handle(
-            GetMoviesQuery request,
+        public async Task<PagedResult<GetMoviesResponse>> Handle(GetMoviesQuery request,
             CancellationToken cancellationToken)
         {
-            return await _movieQueries.GetMoviesAsync(
-                request,
-                cancellationToken);
+            return await _movieQueries.GetMoviesAsync(request, cancellationToken);
         }
     }
 }

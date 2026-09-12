@@ -2,9 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Movie.Infrastructure.Messaging.Outbox;
 using Movie.Infrastructure.Messaging.RabbitMQ;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.DependencyInjection
 {

@@ -1,6 +1,4 @@
-﻿using Movie.Domain.Common;
-
-namespace Movie.Domain.Entities.MovieGenre
+﻿namespace Movie.Domain.Entities.MovieGenre
 {
     public sealed class MovieGenre
     {

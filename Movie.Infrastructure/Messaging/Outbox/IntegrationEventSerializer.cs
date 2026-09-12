@@ -1,8 +1,5 @@
 ﻿using MessagePack;
 using MessagePack.Resolvers;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.Messaging.Outbox
 {
@@ -15,17 +12,12 @@ namespace Movie.Infrastructure.Messaging.Outbox
 
         public byte[] Serialize(object integrationEvent)
         {
-            return MessagePackSerializer.Serialize(
-                integrationEvent,
-                Options);
+            return MessagePackSerializer.Serialize(integrationEvent, Options);
         }
 
         public object Deserialize(byte[] playload, Type type)
         {
-            return MessagePackSerializer.Deserialize(
-                type,
-                playload,
-                Options);
+            return MessagePackSerializer.Deserialize(type, playload, Options);
         }
     }
 }

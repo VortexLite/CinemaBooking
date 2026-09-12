@@ -2,9 +2,6 @@
 using Movie.Application.Abstractions.Interfaces;
 using Movie.Domain.Entities.Genre;
 using Movie.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.Persistence.Repositories
 {

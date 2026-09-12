@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Movie.Domain.Entities.Movie;
 
 
 namespace Movie.Infrastructure.Persistence.Seed.Movies

@@ -1,14 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Movie.Infrastructure.Messaging.IntegrationEvents;
 using Movie.Infrastructure.Messaging.Outbox.Metrics;
 using Movie.Infrastructure.Persistence;
 using Movie.Infrastructure.Persistence.Outbox;
 using Shared.Contracts.IntegrationEvents;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 
 namespace Movie.Infrastructure.Messaging.Outbox
 {
@@ -16,8 +12,7 @@ namespace Movie.Infrastructure.Messaging.Outbox
         : IOutboxProcessor
     {
         private const int BatchSize = 50;
-        private static readonly TimeSpan LockDuration =
-            TimeSpan.FromMinutes(1);
+        private static readonly TimeSpan LockDuration = TimeSpan.FromMinutes(1);
         private const int MaxRetryCount = 5;
         private readonly MovieDbContext _dbContext;
         private readonly IOutboxSerializer _serializer;
@@ -44,18 +39,13 @@ namespace Movie.Infrastructure.Messaging.Outbox
 
             var messages = await ClaimMessagesAsync(cancellationToken);
 
-            _logger.LogInformation("Claimed {Count} outbox messages.",
-                messages.Count);
+            _logger.LogInformation("Claimed {Count} outbox messages.", messages.Count);
 
             if (messages.Count == 0)
                 return;
 
             foreach (var message in messages)
-            {
-                await ProcessMessageAsync(
-                    message,
-                    cancellationToken);
-            }
+                await ProcessMessageAsync(message, cancellationToken);
         }
 
         private async Task<List<OutboxMessage>> ClaimMessagesAsync(
@@ -66,7 +56,7 @@ namespace Movie.Infrastructure.Messaging.Outbox
             return await strategy.ExecuteAsync(async () =>
             {
                 await using var transaction = await _dbContext.Database
-                .BeginTransactionAsync(cancellationToken);
+                    .BeginTransactionAsync(cancellationToken);
 
                 var messages = await _dbContext.OutboxMessages
                     .FromSqlInterpolated($"""
@@ -88,14 +78,10 @@ namespace Movie.Infrastructure.Messaging.Outbox
                     .ToListAsync(cancellationToken);
 
                 foreach (var message in messages)
-                {
                     message.Lock(LockDuration);
-                }
 
                 if (messages.Count > 0)
-                {
                     await _dbContext.SaveChangesAsync(cancellationToken);
-                }
 
                 await transaction.CommitAsync(cancellationToken);
 
@@ -103,24 +89,20 @@ namespace Movie.Infrastructure.Messaging.Outbox
             });
         }
 
-        private async Task ProcessMessageAsync(
-            OutboxMessage message,
+        private async Task ProcessMessageAsync(OutboxMessage message,
             CancellationToken cancellationToken)
         {
             var stopwatch = Stopwatch.StartNew();
 
             try
             {
-                var eventType = IntegrationEventRegistry.GetType(
-                    message.Type);
+                var eventType = IntegrationEventRegistry.GetType(message.Type);
 
                 var integrationEvent = _serializer.Deserialize(
                         Convert.FromBase64String(message.Content),
                         eventType);
 
-                await _publisher.PublishAsync(message.Type,
-                    integrationEvent,
-                    cancellationToken);
+                await _publisher.PublishAsync(message.Type, integrationEvent, cancellationToken);
 
                 message.MarkProcessed();
 
@@ -130,10 +112,8 @@ namespace Movie.Infrastructure.Messaging.Outbox
 
                 _metric.RecordPublishLag(message.Type, DateTime.UtcNow - message.OccurredOnUtc);
 
-                _logger.LogInformation(
-                    "Outbox message {MessageId} processed successfully. Event: {EventType}",
-                    message.Id,
-                    message.Type);
+                _logger.LogInformation("Outbox message {MessageId} processed successfully. Event: {EventType}",
+                    message.Id, message.Type);
             }
             catch (OperationCanceledException)
                 when (cancellationToken.IsCancellationRequested)
@@ -146,21 +126,13 @@ namespace Movie.Infrastructure.Messaging.Outbox
 
                 int failedAttempt = message.RetryCount + 1;
 
-                _logger.LogError(
-                    ex,
+                _logger.LogError(ex,
                     "Failed processing Outbox message {MessageId}. Event: {EventType}. Attempt {Attempt}/{MaxAttempts}",
-                    message.Id,
-                    message.Type,
-                    failedAttempt,
-                    MaxRetryCount);
+                    message.Id, message.Type, failedAttempt, MaxRetryCount);
 
                 if (failedAttempt >= MaxRetryCount)
                 {
-                    await MoveToDeadLetterAsync(
-                        message,
-                        ex,
-                        failedAttempt,
-                        cancellationToken);
+                    await MoveToDeadLetterAsync(message, ex, failedAttempt, cancellationToken);
 
                     _metric.DeadLettered(message.Type);
 
@@ -169,27 +141,20 @@ namespace Movie.Infrastructure.Messaging.Outbox
 
                 TimeSpan retryDelay = GetRetryDelay(failedAttempt);
 
-                message.MarkFailed(
-                    ex.ToString(),
-                    retryDelay);
+                message.MarkFailed(ex.ToString(), retryDelay);
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
                 _metric.Retried(message.Type);
 
-                _logger.LogWarning(
-                    "Outbox message {MessageId} scheduled for retry in {RetryDelay}. Attempt {Attempt}/{MaxAttempts}",
-                    message.Id,
-                    retryDelay,
-                    failedAttempt,
-                    MaxRetryCount);
+                _logger.LogWarning("Outbox message {MessageId} scheduled for retry in {RetryDelay}. Attempt {Attempt}/{MaxAttempts}",
+                    message.Id, retryDelay, failedAttempt, MaxRetryCount);
             }
             finally
             {
                 stopwatch.Stop();
 
-                _metric.RecordProcessingDuration(message.Type,
-                    stopwatch.Elapsed);
+                _metric.RecordProcessingDuration(message.Type, stopwatch.Elapsed);
             }
         }
 
@@ -224,10 +189,8 @@ namespace Movie.Infrastructure.Messaging.Outbox
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            _logger.LogError(
-                "Outbox message {MessageId} moved to dead letter after {RetryCount} failed attempts.",
-                message.Id,
-                retryCount);
+            _logger.LogError("Outbox message {MessageId} moved to dead letter after {RetryCount} failed attempts.",
+                message.Id, retryCount);
         }
     }
 }

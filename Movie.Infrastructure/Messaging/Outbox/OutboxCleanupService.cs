@@ -2,9 +2,6 @@
 using Microsoft.Extensions.Logging;
 using Movie.Infrastructure.Messaging.Outbox.Metrics;
 using Movie.Infrastructure.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.Messaging.Outbox
 {
@@ -39,10 +36,8 @@ namespace Movie.Infrastructure.Messaging.Outbox
             {
                 _metrics.Cleaned(deleted);
 
-                _logger.LogInformation(
-                    "Deleted {Count} processed Outbox messages older than {Threshold}.",
-                    deleted,
-                    threshold);
+                _logger.LogInformation("Deleted {Count} processed Outbox messages older than {Threshold}.",
+                    deleted, threshold);
             }
         }
     }

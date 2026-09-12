@@ -1,7 +1,4 @@
 ﻿using RabbitMQ.Client;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.Messaging.RabbitMQ
 {
@@ -15,11 +12,9 @@ namespace Movie.Infrastructure.Messaging.RabbitMQ
             _connection = connection;
         }
 
-        public async ValueTask<IChannel> CreateChannelAsync(
-            CancellationToken cancellationToken = default)
+        public async ValueTask<IChannel> CreateChannelAsync(CancellationToken cancellationToken = default)
         {
-            return await _connection.CreateChannelAsync(
-                cancellationToken: cancellationToken);
+            return await _connection.CreateChannelAsync(cancellationToken: cancellationToken);
         }
 
         public ValueTask DisposeAsync()

@@ -5,11 +5,6 @@ using Microsoft.Extensions.Hosting;
 using Movie.Domain.Common;
 using Movie.Infrastructure.Persistence;
 using Movie.Infrastructure.Persistence.Interceptors;
-using Movie.Infrastructure.Persistence.Outbox;
-using Movie.Infrastructure.Persistence.Seed;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.DependencyInjection
 {

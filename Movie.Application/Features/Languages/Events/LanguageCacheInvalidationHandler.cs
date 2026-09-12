@@ -2,9 +2,6 @@
 using Movie.Application.Abstractions.Interfaces;
 using Movie.Application.Caching;
 using Movie.Domain.Events.Language;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Features.Languages.Events
 {
@@ -24,9 +21,7 @@ namespace Movie.Application.Features.Languages.Events
         public async Task Handle(LanguageCreatedEvent notification, 
             CancellationToken cancellationToken)
         {
-            await _cache.RemoveByTagAsync(
-                CacheTags.Languages,
-                cancellationToken);
+            await _cache.RemoveByTagAsync(CacheTags.Languages, cancellationToken);
         }
 
         public async Task Handle(LanguageUpdatedEvent notification, 
@@ -50,17 +45,11 @@ namespace Movie.Application.Features.Languages.Events
         private async Task InvalidateAsync(Guid languageId,
             CancellationToken cancellationToken)
         {
-            await _cache.RemoveByTagAsync(
-                CacheTags.Language(languageId),
-                cancellationToken);
+            await _cache.RemoveByTagAsync(CacheTags.Language(languageId), cancellationToken);
 
-            await _cache.RemoveByTagAsync(
-                CacheTags.Languages,
-                cancellationToken);
+            await _cache.RemoveByTagAsync(CacheTags.Languages, cancellationToken);
 
-            await _cache.RemoveByTagAsync(
-                CacheTags.Movies,
-                cancellationToken);
+            await _cache.RemoveByTagAsync(CacheTags.Movies, cancellationToken);
         }
     }
 }

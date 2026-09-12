@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Shared.Common.Models
+﻿namespace Shared.Common.Models
 {
     public sealed class PagedResult<T>
     {
@@ -10,7 +6,6 @@ namespace Shared.Common.Models
         public int Page { get; init; }
         public int PageSize { get; init; }
         public int TotalCount { get; init; }
-        public int TotalPages =>
-            (int)Math.Ceiling((double)TotalCount / PageSize);
+        public int TotalPages => (int)Math.Ceiling((double)TotalCount / PageSize);
     }
 }

@@ -3,9 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Movie.Application.Common.Interfaces;
 using Movie.Application.Features.Genres.Queries.GetGenre;
 using Movie.Application.Features.Genres.Queries.GetGenres;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.Persistence.Queries
 {

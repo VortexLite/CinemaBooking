@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Movie.Infrastructure.Persistence.Queries
+﻿namespace Movie.Infrastructure.Persistence.Queries
 {
     public abstract class BaseQuery
     {

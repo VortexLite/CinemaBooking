@@ -1,8 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using Movie.Infrastructure.Messaging.Outbox;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.Messaging.Publishers
 {
@@ -21,10 +18,8 @@ namespace Movie.Infrastructure.Messaging.Publishers
             object integrationEvent, 
             CancellationToken cancellationToken = default)
         {
-            _logger.LogInformation(
-                "Outbox published event {EventName}: {@Event}",
-                eventName,
-                integrationEvent);
+            _logger.LogInformation("Outbox published event {EventName}: {@Event}",
+                eventName, integrationEvent);
 
             return Task.CompletedTask;
         }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Movie.Infrastructure.Messaging.RabbitMQ
+﻿namespace Movie.Infrastructure.Messaging.RabbitMQ
 {
     public static class RoutingKeys
     {

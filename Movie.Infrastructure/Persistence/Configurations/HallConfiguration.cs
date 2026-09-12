@@ -1,13 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Movie.Domain.Entities.Hall;
-using Movie.Domain.Entities.MovieGenre;
-using Movie.Domain.Entities.Seat;
-using Movie.Domain.Entities.Session;
 using Movie.Infrastructure.Persistence.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.Persistence.Configurations
 {

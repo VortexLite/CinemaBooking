@@ -3,9 +3,6 @@ using Movie.Application.Abstractions.Interfaces;
 using Movie.Domain.Common;
 using Movie.Domain.Entities.Genre;
 using Shared.Common.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Features.Genres.Commands.DeleteGenre
 {
@@ -26,8 +23,7 @@ namespace Movie.Application.Features.Genres.Commands.DeleteGenre
         public async Task Handle(DeleteGenreCommand request,
             CancellationToken cancellationToken)
         {
-            var genre = await _genreRepository.GetByIdAsync(request.Id,
-                cancellationToken);
+            var genre = await _genreRepository.GetByIdAsync(request.Id, cancellationToken);
 
             if (genre is null)
                 throw new NotFoundException(nameof(Genre), request.Id);

@@ -24,9 +24,7 @@ namespace Movie.Application.Features.Movies.Commands.CreateMovie
         public async Task<Guid> Handle(CreateMovieCommand request, 
             CancellationToken cancellationToken)
         {
-            var language = await _languageRepository.GetByIdAsync(
-                request.LanguageId, 
-                cancellationToken);
+            var language = await _languageRepository.GetByIdAsync(request.LanguageId, cancellationToken);
 
             if (language is null)
                 throw new NotFoundException(nameof(Domain.Entities.Language.Language));

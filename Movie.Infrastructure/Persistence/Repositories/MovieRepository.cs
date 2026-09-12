@@ -1,11 +1,7 @@
 ﻿using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Movie.Application.Abstractions.Interfaces;
-using Movie.Application.Features.Movies.Queries.GetMovie;
 using Movie.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.Persistence.Repositories
 {
@@ -16,8 +12,7 @@ namespace Movie.Infrastructure.Persistence.Repositories
         public MovieRepository(MovieDbContext context)
             : base (context) { }
 
-        public async Task<Domain.Entities.Movie.Movie?> GetDetailsAsync(
-            Guid id, 
+        public async Task<Domain.Entities.Movie.Movie?> GetDetailsAsync(Guid id, 
             CancellationToken cancellationToken = default)
         {
             return await _context.Movies
@@ -30,17 +25,15 @@ namespace Movie.Infrastructure.Persistence.Repositories
                     cancellationToken);
         }
 
-        public async Task<Domain.Entities.Movie.Movie?> GetByTitleAsync(
-            string title, 
+        public async Task<Domain.Entities.Movie.Movie?> GetByTitleAsync(string title, 
             CancellationToken cancellationToken = default)
         {
             return await _context.Movies
-                .FirstOrDefaultAsync(x => x.Title == title
-                , cancellationToken);
+                .FirstOrDefaultAsync(x => x.Title == title, 
+                cancellationToken);
         }
 
-        public async Task<bool> ExistAsync(
-            string title, 
+        public async Task<bool> ExistAsync(string title, 
             CancellationToken cancellationToken = default)
         {
             return await _context.Movies
@@ -60,8 +53,7 @@ namespace Movie.Infrastructure.Persistence.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<Domain.Entities.Movie.Movie?> GetDeletedByIdAsync(
-            Guid id,
+        public async Task<Domain.Entities.Movie.Movie?> GetDeletedByIdAsync(Guid id,
             CancellationToken cancellationToken = default)
         {
             return await _context.Movies

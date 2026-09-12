@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Movie.Application.Features.Genres.Commands.CreateGenre;
 using Movie.Application.Features.Genres.Commands.DeleteGenre;
@@ -37,9 +36,7 @@ namespace Movie.Api.Controllers
         Guid id,
         CancellationToken cancellationToken)
         {
-            var result = await _sender.Send(
-                new GetGenreQuery(id),
-                cancellationToken);
+            var result = await _sender.Send(new GetGenreQuery(id), cancellationToken);
 
             return Ok(result);
         }
@@ -49,52 +46,38 @@ namespace Movie.Api.Controllers
             [FromBody] CreateGenreCommand command,
             CancellationToken cancellationToken)
         {
-            var id = await _sender.Send(
-                command,
-                cancellationToken);
+            var id = await _sender.Send(command, cancellationToken);
 
-            return CreatedAtAction(
-                nameof(GetGenre),
-                new { id },
-                id);
+            return CreatedAtAction(nameof(GetGenre), new { id }, id);
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateGenre(
-            Guid id,
+        public async Task<IActionResult> UpdateGenre(Guid id,
             [FromBody] UpdateGenreCommand command,
             CancellationToken cancellationToken)
         {
             if (id != command.Id)
                 return BadRequest();
 
-            await _sender.Send(
-                command,
-                cancellationToken);
+            await _sender.Send(command, cancellationToken);
 
             return NoContent();
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteGenre(
-            Guid id,
+        public async Task<IActionResult> DeleteGenre(Guid id,
             CancellationToken cancellationToken)
         {
-            await _sender.Send(
-                new DeleteGenreCommand(id),
-                cancellationToken);
+            await _sender.Send(new DeleteGenreCommand(id), cancellationToken);
 
             return NoContent();
         }
 
         [HttpPatch("{id:guid}/restore")]
-        public async Task<IActionResult> RestoreGenre(
-            Guid id,
+        public async Task<IActionResult> RestoreGenre(Guid id,
             CancellationToken cancellationToken)
         {
-            await _sender.Send(
-                new RestoreGenreCommand(id),
-                cancellationToken);
+            await _sender.Send(new RestoreGenreCommand(id), cancellationToken);
 
             return NoContent();
         }

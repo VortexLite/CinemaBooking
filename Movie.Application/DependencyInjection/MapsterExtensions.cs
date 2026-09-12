@@ -1,10 +1,6 @@
-﻿using FluentValidation;
-using Mapster;
+﻿using Mapster;
 using MapsterMapper;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.DependencyInjection
 {

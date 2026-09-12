@@ -1,10 +1,6 @@
-﻿using Movie.Domain.Entities.MovieGenre;
-using Movie.Domain.Enums;
+﻿using Movie.Domain.Enums;
 using Movie.Domain.Events.Movies;
 using Movie.Domain.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Domain.Entities.Movie
 {

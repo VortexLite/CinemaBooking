@@ -1,8 +1,5 @@
 ﻿using Movie.Application.Features.Halls.Queries.GetHall;
 using Movie.Application.Features.Halls.Queries.GetHalls;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Common.Interfaces
 {

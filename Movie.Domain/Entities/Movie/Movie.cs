@@ -1,8 +1,6 @@
 ﻿using Movie.Domain.Common;
-using Movie.Domain.Entities.Language;
 using Movie.Domain.Enums;
 using Movie.Domain.Events.Movies;
-using Movie.Domain.Exceptions;
 
 namespace Movie.Domain.Entities.Movie
 {
@@ -18,9 +16,11 @@ namespace Movie.Domain.Entities.Movie
         public MovieStatus Status { get; private set; }
         public Guid LanguageId { get; private set; }
         public Language.Language Language { get; private set; } = null!;
+
         private readonly List<MovieGenre.MovieGenre> _movieGenres = [];
         public IReadOnlyCollection<MovieGenre.MovieGenre> MovieGenres
             => _movieGenres;
+
         private readonly List<Session.Session> _sessions = [];
         public IReadOnlyCollection<Session.Session> Sessions
             => _sessions;

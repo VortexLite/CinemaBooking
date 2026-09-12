@@ -1,8 +1,5 @@
 ﻿using MediatR;
 using Movie.Application.Common.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Features.Languages.Queries.GetLanguages
 {
@@ -19,8 +16,7 @@ namespace Movie.Application.Features.Languages.Queries.GetLanguages
         public async Task<List<GetLanguagesResponse>> Handle(GetLanguagesQuery request, 
             CancellationToken cancellationToken)
         {
-            return await _languageQueries.GetLanguagesAsync(request.IncludeDeleted,
-                cancellationToken);
+            return await _languageQueries.GetLanguagesAsync(request.IncludeDeleted, cancellationToken);
         }
     }
 }

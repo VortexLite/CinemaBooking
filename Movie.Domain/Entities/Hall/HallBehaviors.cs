@@ -1,19 +1,15 @@
-﻿using Movie.Domain.Entities.Seat;
-using Movie.Domain.Enums;
+﻿using Movie.Domain.Enums;
 using Movie.Domain.Events.Hall;
 using Movie.Domain.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Domain.Entities.Hall
 {
     public sealed partial class Hall
     {
         public void Update(
-        string name,
-        ushort rows,
-        ushort columns)
+            string name,
+            ushort rows,
+            ushort columns)
         {
             Validate(name, rows, columns);
 
@@ -21,9 +17,7 @@ namespace Movie.Domain.Entities.Hall
 
             bool nameChanged = Name != normalizedName;
 
-            bool layoutChanged =
-                Rows != rows ||
-                Columns != columns;
+            bool layoutChanged = Rows != rows || Columns != columns;
 
             if (!nameChanged && !layoutChanged)
                 return;
@@ -31,9 +25,7 @@ namespace Movie.Domain.Entities.Hall
             Name = normalizedName;
 
             if (layoutChanged)
-            {
-                ResizeLayout(rows,columns);
-            }
+                ResizeLayout(rows, columns);
 
             Raise(new HallUpdatedEvent(Id));
         }

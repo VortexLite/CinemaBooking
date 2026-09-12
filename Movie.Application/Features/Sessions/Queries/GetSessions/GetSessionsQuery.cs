@@ -1,9 +1,6 @@
 ﻿using Movie.Application.Caching;
 using Movie.Application.Common.Interfaces;
 using Movie.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Features.Sessions.Queries.GetSessions
 {

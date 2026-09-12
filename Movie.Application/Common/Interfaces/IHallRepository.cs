@@ -1,19 +1,14 @@
 ﻿using Movie.Domain.Entities.Hall;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Abstractions.Interfaces
 {
     public interface IHallRepository
         : IBaseRepository<Hall>
     {
-        Task<Hall?> GetWithSeatsAndSessionsAsync(
-            Guid id,
+        Task<Hall?> GetWithSeatsAndSessionsAsync(Guid id,
             CancellationToken cancellationToken = default);
 
-        Task<bool> ExistsByNameAsync(
-            string name,
+        Task<bool> ExistsByNameAsync(string name,
             CancellationToken cancellationToken= default);
 
         Task<Hall?> GetByIdIncludingDeletedAsync(Guid id,

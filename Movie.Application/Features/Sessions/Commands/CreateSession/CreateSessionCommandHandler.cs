@@ -3,13 +3,9 @@ using Movie.Application.Abstractions.Interfaces;
 using Movie.Application.Common.Constants;
 using Movie.Domain.Common;
 using Movie.Domain.Entities.Hall;
-using Movie.Domain.Entities.Movie;
 using Movie.Domain.Entities.Session;
 using Movie.Domain.Enums;
 using Shared.Common.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Features.Sessions.Commands.CreateSession
 {
@@ -22,7 +18,11 @@ namespace Movie.Application.Features.Sessions.Commands.CreateSession
         private readonly IUnitOfWork _unitOfWork;
         private readonly TimeProvider _timeProvider;
 
-        public CreateSessionCommandHandler(ISessionRepository sessionRepository, IMovieRepository movieRepository, IHallRepository hallRepository, IUnitOfWork unitOfWork, TimeProvider timeProvider)
+        public CreateSessionCommandHandler(ISessionRepository sessionRepository,
+            IMovieRepository movieRepository, 
+            IHallRepository hallRepository, 
+            IUnitOfWork unitOfWork, 
+            TimeProvider timeProvider)
         {
             _sessionRepository = sessionRepository;
             _movieRepository = movieRepository;
@@ -34,8 +34,7 @@ namespace Movie.Application.Features.Sessions.Commands.CreateSession
         public async Task<Guid> Handle(CreateSessionCommand request, 
             CancellationToken cancellationToken)
         {
-            var movie = await _movieRepository.GetByIdAsync(
-                request.MovieId, cancellationToken);
+            var movie = await _movieRepository.GetByIdAsync(request.MovieId, cancellationToken);
 
             if (movie is null)
                 throw new NotFoundException(nameof(Domain.Entities.Movie.Movie), request.MovieId);
@@ -43,8 +42,7 @@ namespace Movie.Application.Features.Sessions.Commands.CreateSession
             if (movie.Status != MovieStatus.Published)
                 throw new BusinessRuleException("Sessions can only be created for published movies.");
 
-            var hall = await _hallRepository.GetByIdAsync(
-                request.HallId, cancellationToken);
+            var hall = await _hallRepository.GetByIdAsync(request.HallId, cancellationToken);
 
             if (hall is null)
                 throw new NotFoundException(nameof(Hall), request.HallId);

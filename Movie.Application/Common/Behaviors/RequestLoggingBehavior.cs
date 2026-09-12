@@ -1,9 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 
 namespace Movie.Application.Common.Behaviors
 {
@@ -25,9 +22,7 @@ namespace Movie.Application.Common.Behaviors
         {
             string requestName = typeof(TRequest).Name;
 
-            string requestId =
-                Activity.Current?.Id
-                ?? Guid.NewGuid().ToString();
+            string requestId = Activity.Current?.Id ?? Guid.CreateVersion7().ToString();
 
             using (_logger.BeginScope(new Dictionary<string, object>
             {
@@ -39,23 +34,17 @@ namespace Movie.Application.Common.Behaviors
 
                 if (isCommand)
                 {
-                    _logger.LogInformation(
-                        "Handling command {CommandName}: {@Request}",
-                        requestName,
-                        request);
+                    _logger.LogInformation("Handling command {CommandName}: {@Request}",
+                        requestName, request);
                 }
                 else
                 {
-                    _logger.LogInformation(
-                        "Handling query {QueryName}",
-                        requestName);
+                    _logger.LogInformation("Handling query {QueryName}", requestName);
                 }
 
                 TResponse response = await next();
 
-                _logger.LogInformation(
-                    "Completed {RequestName}",
-                    requestName);
+                _logger.LogInformation("Completed {RequestName}", requestName);
 
                 return response;
             }

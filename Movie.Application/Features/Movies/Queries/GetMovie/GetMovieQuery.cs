@@ -1,20 +1,14 @@
-﻿using MediatR;
-using Movie.Application.Caching;
+﻿using Movie.Application.Caching;
 using Movie.Application.Common.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Features.Movies.Queries.GetMovie
 {
     public sealed record GetMovieQuery(Guid Id)
         : ICachedQuery<GetMovieResponse>
     {
-        public string CacheKey =>
-        CacheKeys.Movie(Id);
+        public string CacheKey => CacheKeys.Movie(Id);
 
-        public TimeSpan? Expiration =>
-            TimeSpan.FromMinutes(10);
+        public TimeSpan? Expiration => TimeSpan.FromMinutes(10);
 
         public IEnumerable<string> Tags =>
         [

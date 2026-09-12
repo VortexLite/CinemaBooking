@@ -1,29 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Movie.Infrastructure.Persistence.Outbox
+﻿namespace Movie.Infrastructure.Persistence.Outbox
 {
     public sealed class OutboxMessage
     {
         public Guid Id { get; private set; }
-
         public string Type { get; private set; } = default!;
-
         public string Content { get; private set; } = default!;
-
         public DateTime OccurredOnUtc { get; private set; }
-
         public DateTime? LockedUntilUtc { get; private set; }
-
         public DateTime? ProcessedOnUtc { get; private set; }
-
         public int RetryCount { get; private set; }
-
         public DateTime? NextRetryUtc { get; private set; }
-
         public string? Error { get; private set; }
-
         public bool IsProcessed => ProcessedOnUtc.HasValue;
 
         private OutboxMessage() { }

@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Movie.Api.Contracts.Halls;
 using Movie.Application.Features.Halls.Commands.ChangeSeatType;
@@ -28,65 +27,48 @@ namespace Movie.Api.Controllers
             [FromQuery] bool includeDeleted = false,
             CancellationToken cancellationToken = default)
         {
-            var result = await _sender.Send(
-                new GetHallsQuery(includeDeleted),
-                cancellationToken);
+            var result = await _sender.Send(new GetHallsQuery(includeDeleted),cancellationToken);
 
             return Ok(result);
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<ActionResult<GetHallResponse>> GetHall(
-            Guid id,
+        public async Task<ActionResult<GetHallResponse>> GetHall(Guid id,
             CancellationToken cancellationToken)
         {
-            var result = await _sender.Send(
-                new GetHallQuery(id),
-                cancellationToken);
+            var result = await _sender.Send(new GetHallQuery(id), cancellationToken);
 
             return Ok(result);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Guid>> CreateHall(
-            CreateHallCommand command,
+        public async Task<ActionResult<Guid>> CreateHall(CreateHallCommand command,
             CancellationToken cancellationToken)
         {
-            Guid id = await _sender.Send(
-                command,
-                cancellationToken);
+            var id = await _sender.Send(command, cancellationToken);
 
-            return CreatedAtAction(
-                nameof(GetHall),
-                new { id },
-                id);
+            return CreatedAtAction(nameof(GetHall), new { id }, id);
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateHall(
-            Guid id,
+        public async Task<IActionResult> UpdateHall(Guid id,
             UpdateHallCommand command,
             CancellationToken cancellationToken)
         {
             if (id != command.Id)
                 return BadRequest();
 
-            await _sender.Send(
-                command,
-                cancellationToken);
+            await _sender.Send(command, cancellationToken);
 
             return NoContent();
         }
 
         [HttpPatch("{hallId:guid}/seats/{seatId:guid}/type")]
-        public async Task<IActionResult> ChangeSeatType(
-            Guid hallId,
-            Guid seatId,
+        public async Task<IActionResult> ChangeSeatType(Guid hallId, Guid seatId,
             [FromBody] ChangeSeatTypeRequest request,
             CancellationToken cancellationToken)
         {
-            await _sender.Send(
-                new ChangeSeatTypeCommand(
+            await _sender.Send(new ChangeSeatTypeCommand(
                     hallId,
                     seatId,
                     request.Type),
@@ -96,25 +78,19 @@ namespace Movie.Api.Controllers
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteHall(
-            Guid id,
+        public async Task<IActionResult> DeleteHall(Guid id,
             CancellationToken cancellationToken)
         {
-            await _sender.Send(
-                new DeleteHallCommand(id),
-                cancellationToken);
+            await _sender.Send(new DeleteHallCommand(id), cancellationToken);
 
             return NoContent();
         }
 
         [HttpPatch("{id:guid}/restore")]
-        public async Task<IActionResult> RestoreHall(
-            Guid id,
+        public async Task<IActionResult> RestoreHall(Guid id,
             CancellationToken cancellationToken)
         {
-            await _sender.Send(
-                new RestoreHallCommand(id),
-                cancellationToken);
+            await _sender.Send(new RestoreHallCommand(id), cancellationToken);
 
             return NoContent();
         }

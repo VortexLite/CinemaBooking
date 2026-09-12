@@ -1,11 +1,7 @@
-﻿using MediatR;
-using Movie.Application.Caching;
+﻿using Movie.Application.Caching;
 using Movie.Application.Common.Interfaces;
 using Movie.Domain.Enums;
 using Shared.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Features.Movies.Queries.GetMovies
 {
@@ -19,8 +15,7 @@ namespace Movie.Application.Features.Movies.Queries.GetMovies
         int PageSize)
         : ICachedQuery<PagedResult<GetMoviesResponse>>
     {
-        public string CacheKey =>
-        CacheKeys.Movies(
+        public string CacheKey => CacheKeys.Movies(
             Search,
             Status,
             GenreId,
@@ -29,8 +24,7 @@ namespace Movie.Application.Features.Movies.Queries.GetMovies
             Page,
             PageSize);
 
-        public TimeSpan? Expiration =>
-            TimeSpan.FromMinutes(5);
+        public TimeSpan? Expiration => TimeSpan.FromMinutes(5);
 
         public IEnumerable<string> Tags =>
         [

@@ -23,11 +23,9 @@ namespace Movie.Infrastructure.Persistence.Interceptors
 
                 entry.State = EntityState.Modified;
 
-                entry.Property(x => x.IsDeleted)
-                    .CurrentValue = true;
+                entry.Property(x => x.IsDeleted).CurrentValue = true;
 
-                entry.Property(x => x.DeletedAt)
-                    .CurrentValue = utcNow;
+                entry.Property(x => x.DeletedAt).CurrentValue = utcNow;
             }
         }
 
@@ -47,10 +45,7 @@ namespace Movie.Infrastructure.Persistence.Interceptors
         {
             UpdateSoftDelete(eventData.Context);
 
-            return base.SavingChangesAsync(
-                eventData,
-                result,
-                cancellationToken);
+            return base.SavingChangesAsync(eventData, result, cancellationToken);
         }
     }
 }

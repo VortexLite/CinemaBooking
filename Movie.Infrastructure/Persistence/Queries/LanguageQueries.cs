@@ -3,10 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Movie.Application.Common.Interfaces;
 using Movie.Application.Features.Languages.Queries.GetLanguage;
 using Movie.Application.Features.Languages.Queries.GetLanguages;
-using Movie.Domain.Entities.Language;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.Persistence.Queries
 {

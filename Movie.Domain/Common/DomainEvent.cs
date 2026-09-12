@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Movie.Domain.Common
+﻿namespace Movie.Domain.Common
 {
     public abstract class DomainEvent : IDomainEvent
     {
-        public Guid EventId { get; } = Guid.NewGuid();
+        public Guid EventId { get; } = Guid.CreateVersion7();
         public DateTime OccurredOn { get; } = DateTime.UtcNow;
     }
 }

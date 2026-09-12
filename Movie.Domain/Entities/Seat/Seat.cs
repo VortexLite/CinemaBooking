@@ -18,7 +18,7 @@ namespace Movie.Domain.Entities.Seat
             ushort number,
             SeatType seatType)
         {
-            Id = Guid.NewGuid();
+            Id = Guid.CreateVersion7();
             HallId = hallId;
             Row = row;
             Number = number;

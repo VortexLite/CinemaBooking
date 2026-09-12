@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Movie.Domain.Exceptions;
-using FluentValidation;
 using Shared.Common.Exceptions;
 
 namespace Movie.Api.Exceptions

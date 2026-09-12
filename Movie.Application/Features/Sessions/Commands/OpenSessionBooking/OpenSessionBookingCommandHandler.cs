@@ -3,9 +3,6 @@ using Movie.Application.Abstractions.Interfaces;
 using Movie.Domain.Common;
 using Movie.Domain.Entities.Session;
 using Shared.Common.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Features.Sessions.Commands.OpenSessionBooking
 {
@@ -28,8 +25,7 @@ namespace Movie.Application.Features.Sessions.Commands.OpenSessionBooking
         public async Task Handle(OpenSessionBookingCommand request,
             CancellationToken cancellationToken)
         {
-            var session = await _sessionRepository.GetByIdAsync(request.Id, 
-                cancellationToken);
+            var session = await _sessionRepository.GetByIdAsync(request.Id, cancellationToken);
 
             if (session is null)
                 throw new NotFoundException(nameof(Session), request.Id);

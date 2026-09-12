@@ -2,9 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Movie.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.Persistence.Interceptors
 {
@@ -23,20 +20,14 @@ namespace Movie.Infrastructure.Persistence.Interceptors
             CancellationToken cancellationToken = default)
         {
             if (eventData.Context is null)
-                return await base.SavedChangesAsync(
-                    eventData,
-                    result,
-                    cancellationToken);
+                return await base.SavedChangesAsync(eventData, result, cancellationToken);
 
             var domainEvents = GetDomainEvents(eventData.Context);
 
             foreach (var domainEvent in domainEvents)
                 await _publisher.Publish(domainEvent, cancellationToken);
 
-            return await base.SavedChangesAsync(
-                eventData,
-                result,
-                cancellationToken);
+            return await base.SavedChangesAsync(eventData, result, cancellationToken);
         }
 
         private static List<IDomainEvent> GetDomainEvents(DbContext context)
@@ -52,9 +43,7 @@ namespace Movie.Infrastructure.Persistence.Interceptors
                 .ToList();
 
             foreach (var aggregate in aggregates)
-            {
                 aggregate.ClearEvents();
-            }
 
             return events;
         }

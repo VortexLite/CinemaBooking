@@ -1,9 +1,6 @@
 ﻿using Movie.Domain.Enums;
 using Movie.Domain.Events.Movies;
 using Movie.Domain.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Domain.Entities.Movie
 {
@@ -202,16 +199,10 @@ namespace Movie.Domain.Entities.Movie
         private void EnsureCanBeModified()
         {
             if (Status == MovieStatus.Archived)
-            {
-                throw new DomainException(
-                    "Archived movie cannot be modified.");
-            }
+                throw new DomainException("Archived movie cannot be modified.");
 
             if (IsDeleted)
-            {
-                throw new DomainException(
-                    "Deleted movie cannot be modified.");
-            }
+                throw new DomainException("Deleted movie cannot be modified.");
         }
     }
 }

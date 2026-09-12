@@ -1,12 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Movie.Domain.Entities.Language;
-using Movie.Infrastructure.Persistence.Seed.Genres;
+﻿using Movie.Infrastructure.Persistence.Seed.Genres;
 using Movie.Infrastructure.Persistence.Seed.Halls;
 using Movie.Infrastructure.Persistence.Seed.Languages;
 using Movie.Infrastructure.Persistence.Seed.Movies;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.Persistence.Seed
 {

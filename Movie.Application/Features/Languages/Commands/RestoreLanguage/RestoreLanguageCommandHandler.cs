@@ -2,9 +2,6 @@
 using Movie.Application.Abstractions.Interfaces;
 using Movie.Domain.Common;
 using Shared.Common.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Features.Languages.Commands.RestoreLanguage
 {
@@ -29,8 +26,7 @@ namespace Movie.Application.Features.Languages.Commands.RestoreLanguage
                 request.Id, cancellationToken);
 
             if (language is null)
-                throw new NotFoundException(nameof(Domain.Entities.Language.Language),
-                    request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.Language.Language), request.Id);
 
             language.Restore();
 

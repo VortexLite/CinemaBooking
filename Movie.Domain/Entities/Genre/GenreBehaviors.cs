@@ -1,8 +1,5 @@
 ﻿using Movie.Domain.Events.Genre;
 using Movie.Domain.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Domain.Entities.Genre
 {

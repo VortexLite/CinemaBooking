@@ -1,11 +1,7 @@
 ﻿using MediatR;
 using Movie.Application.Abstractions.Interfaces;
 using Movie.Domain.Common;
-using Movie.Domain.Exceptions;
 using Shared.Common.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Features.Halls.Commands.DeleteHall
 {
@@ -29,8 +25,7 @@ namespace Movie.Application.Features.Halls.Commands.DeleteHall
         public async Task Handle(DeleteHallCommand request,
             CancellationToken cancellationToken)
         {
-            var hall = await _hallRepository.GetByIdAsync(request.Id,
-                cancellationToken);
+            var hall = await _hallRepository.GetByIdAsync(request.Id, cancellationToken);
 
             if (hall is null)
                 throw new NotFoundException(nameof(Domain.Entities.Hall.Hall), request.Id);
@@ -38,7 +33,7 @@ namespace Movie.Application.Features.Halls.Commands.DeleteHall
             var utcNow = _timeProvider.GetUtcNow().UtcDateTime;
 
             if (await _hallRepository.HasFutureSessionsAsync(hall.Id, utcNow, cancellationToken))
-                throw new DomainException("Hall cannot be deleted while future sessions exist.");
+                throw new BusinessRuleException("Hall cannot be deleted while future sessions exist.");
 
             hall.Delete();
 

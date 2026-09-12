@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Movie.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.Persistence.Interceptors
 {
@@ -22,15 +19,13 @@ namespace Movie.Infrastructure.Persistence.Interceptors
                 {
                     case EntityState.Added:
 
-                        entry.Property(nameof(IAuditable.CreatedAt))
-                            .CurrentValue = utcNow;
+                        entry.Property(nameof(IAuditable.CreatedAt)).CurrentValue = utcNow;
 
                         break;
 
                     case EntityState.Modified:
 
-                        entry.Property(nameof(IAuditable.UpdatedAt))
-                            .CurrentValue = utcNow;
+                        entry.Property(nameof(IAuditable.UpdatedAt)).CurrentValue = utcNow;
 
                         break;
                 }

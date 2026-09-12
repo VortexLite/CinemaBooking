@@ -1,9 +1,4 @@
-﻿using Mapster;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Movie.Application.Features.Movies.Queries.GetMovie
+﻿namespace Movie.Application.Features.Movies.Queries.GetMovie
 {
     public sealed class GetMovieResponse
     {

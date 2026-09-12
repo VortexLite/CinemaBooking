@@ -1,8 +1,5 @@
 ﻿using MediatR;
 using Movie.Application.Common.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Features.Sessions.Queries.GetSessions
 {

@@ -2,9 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Movie.Infrastructure.Persistence;
 using Movie.Infrastructure.Persistence.Seed;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.DependencyInjection
 {

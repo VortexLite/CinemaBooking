@@ -1,7 +1,4 @@
 ﻿using Movie.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Caching
 {
@@ -28,8 +25,7 @@ namespace Movie.Application.Caching
 
         #region Movies
 
-        public static string Movie(Guid id)
-            => $"{MoviePrefix}{id}";
+        public static string Movie(Guid id) => $"{MoviePrefix}{id}";
 
         public static string Movies(
             string? search,
@@ -67,8 +63,7 @@ namespace Movie.Application.Caching
 
         #region Genres
 
-        public static string Genre(Guid id)
-            => $"{GenrePrefix}{id}";
+        public static string Genre(Guid id) => $"{GenrePrefix}{id}";
 
         public static string Genres(bool includeDeleted)
         {
@@ -80,8 +75,7 @@ namespace Movie.Application.Caching
 
         #region Languages
 
-        public static string Language(Guid id)
-            => $"{LanguagePrefix}{id}";
+        public static string Language(Guid id) => $"{LanguagePrefix}{id}";
 
         public static string Languages(bool includeDeleted) 
             => $"{LanguagesPrefix}deleted:{includeDeleted}";
@@ -90,8 +84,7 @@ namespace Movie.Application.Caching
 
         #region Halls
 
-        public static string Hall(Guid id)
-            => $"{HallPrefix}{id}";
+        public static string Hall(Guid id) => $"{HallPrefix}{id}";
 
         public static string Halls(bool includeDeleted)
             => $"{HallsPrefix}deleted:{includeDeleted}";
@@ -100,8 +93,7 @@ namespace Movie.Application.Caching
 
         #region Sessions
 
-        public static string Session(Guid id)
-            => $"{SessionPrefix}{id}";
+        public static string Session(Guid id) => $"{SessionPrefix}{id}";
 
         public static string Sessions(bool includeDeleted)
             => $"{SessionsPrefix}deleted:{includeDeleted}";

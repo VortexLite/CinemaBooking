@@ -1,7 +1,4 @@
-﻿using Microsoft.OpenApi;
-using Movie.Api.OpenAPI;
-using System.Reflection.Metadata;
-using System.Xml.Linq;
+﻿using Movie.Api.OpenAPI;
 
 namespace Movie.Api.Extensions
 {

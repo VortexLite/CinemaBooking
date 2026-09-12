@@ -1,9 +1,4 @@
 ﻿using Movie.Domain.Events.Language;
-using System;
-using System.Collections.Generic;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Xml.Linq;
 
 namespace Movie.Domain.Entities.Language
 {

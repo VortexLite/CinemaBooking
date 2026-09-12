@@ -1,8 +1,5 @@
 ﻿using Movie.Application.Abstractions.Interfaces;
 using Movie.Application.Common.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.Caching
 {
@@ -30,12 +27,7 @@ namespace Movie.Infrastructure.Caching
             value = await _redis.GetAsync<T>(key);
 
             if (value is not null)
-            {
-                _memory.Set(
-                    key,
-                    value,
-                    TimeSpan.FromMinutes(5));
-            }
+                _memory.Set(key, value, TimeSpan.FromMinutes(5));
 
             return value;
         }
@@ -47,30 +39,17 @@ namespace Movie.Infrastructure.Caching
             IEnumerable<string>? tags = null,
             CancellationToken cancellationToken = default)
         {
-            TimeSpan ttl =
-                expiration ?? TimeSpan.FromMinutes(10);
+            TimeSpan ttl = expiration ?? TimeSpan.FromMinutes(10);
 
-            _memory.Set(
-                key,
-                value,
-                ttl);
+            _memory.Set(key, value, ttl);
 
-            await _redis.SetAsync(
-                key,
-                value,
-                ttl);
+            await _redis.SetAsync(key, value, ttl);
 
             if (tags is not null)
-            {
-                await _tagStore.AddAsync(
-                    key,
-                    tags,
-                    cancellationToken);
-            }
+                await _tagStore.AddAsync(key, tags, cancellationToken);
         }
 
-        public async Task RemoveAsync(
-            string key,
+        public async Task RemoveAsync(string key,
             CancellationToken cancellationToken = default)
         {
             _memory.Remove(key);
@@ -78,8 +57,7 @@ namespace Movie.Infrastructure.Caching
             await _redis.RemoveAsync(key);
         }
 
-        public async Task RemoveByPrefixAsync(
-            string prefix,
+        public async Task RemoveByPrefixAsync(string prefix,
             CancellationToken cancellationToken = default)
         {
             _memory.RemoveByPrefix(prefix);
@@ -93,9 +71,7 @@ namespace Movie.Infrastructure.Caching
             var keys = await _tagStore.GetKeysAsync(tag, cancellationToken);
 
             foreach (var key in keys)
-            {
                 await RemoveAsync(key, cancellationToken);
-            }
 
             await _tagStore.RemoveTagAsync(tag, cancellationToken);
         }

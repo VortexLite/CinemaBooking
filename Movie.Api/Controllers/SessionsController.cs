@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Movie.Api.Contracts.Sessions;
 using Movie.Application.Features.Sessions.Commands.CancelSession;
@@ -37,8 +36,7 @@ namespace Movie.Api.Controllers
             [FromQuery] bool includeDeleted = false,
             CancellationToken cancellationToken = default)
         {
-            var result = await _sender.Send(
-                new GetSessionsQuery(
+            var result = await _sender.Send(new GetSessionsQuery(
                     fromUtc,
                     toUtc,
                     movieId,
@@ -51,13 +49,10 @@ namespace Movie.Api.Controllers
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetSession(
-            Guid id,
+        public async Task<IActionResult> GetSession(Guid id,
             CancellationToken cancellationToken)
         {
-            var result = await _sender.Send(
-                new GetSessionQuery(id),
-                cancellationToken);
+            var result = await _sender.Send(new GetSessionQuery(id), cancellationToken);
 
             if (result is null)
                 return NotFound();
@@ -79,24 +74,17 @@ namespace Movie.Api.Controllers
                 request.SubtitleType,
                 request.SoundFormat);
 
-            Guid id = await _sender.Send(
-                command,
-                cancellationToken);
+            var id = await _sender.Send(command, cancellationToken);
 
-            return CreatedAtAction(
-                nameof(GetSession),
-                new { id },
-                new { id });
+            return CreatedAtAction(nameof(GetSession), new { id }, new { id });
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateSession(
-            Guid id,
+        public async Task<IActionResult> UpdateSession(Guid id,
             [FromBody] UpdateSessionRequest request,
             CancellationToken cancellationToken)
         {
-            await _sender.Send(
-                new UpdateSessionCommand(
+            await _sender.Send(new UpdateSessionCommand(
                     id,
                     request.HallId,
                     request.StartTime,
@@ -110,49 +98,38 @@ namespace Movie.Api.Controllers
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteSession(
-            Guid id,
+        public async Task<IActionResult> DeleteSession(Guid id,
             CancellationToken cancellationToken)
         {
-            await _sender.Send(
-                new DeleteSessionCommand(id),
-                cancellationToken);
+            await _sender.Send(new DeleteSessionCommand(id), cancellationToken);
 
             return NoContent();
         }
 
         [HttpPatch("{id:guid}/restore")]
-        public async Task<IActionResult> RestoreSession(
-            Guid id,
+        public async Task<IActionResult> RestoreSession(Guid id,
             CancellationToken cancellationToken)
         {
-            await _sender.Send(
-                new RestoreSessionCommand(id),
-                cancellationToken);
+            await _sender.Send(new RestoreSessionCommand(id), cancellationToken);
 
             return NoContent();
         }
 
         [HttpPatch("{id:guid}/open-booking")]
-        public async Task<IActionResult> OpenBooking(
-    Guid id,
-    CancellationToken cancellationToken)
+        public async Task<IActionResult> OpenBooking(Guid id,
+            CancellationToken cancellationToken)
         {
-            await _sender.Send(
-                new OpenSessionBookingCommand(id),
-                cancellationToken);
+            await _sender.Send(new OpenSessionBookingCommand(id), cancellationToken);
 
             return NoContent();
         }
 
         [HttpPatch("{id:guid}/cancel")]
-        public async Task<IActionResult> Cancel(
-            Guid id,
+        public async Task<IActionResult> Cancel(Guid id,
             [FromBody] CancelSessionRequest request,
             CancellationToken cancellationToken)
         {
-            await _sender.Send(
-                new CancelSessionCommand(
+            await _sender.Send(new CancelSessionCommand(
                     id,
                     request.Reason),
                 cancellationToken);
@@ -161,25 +138,19 @@ namespace Movie.Api.Controllers
         }
 
         [HttpPatch("{id:guid}/start")]
-        public async Task<IActionResult> Start(
-            Guid id,
+        public async Task<IActionResult> Start(Guid id,
             CancellationToken cancellationToken)
         {
-            await _sender.Send(
-                new StartSessionCommand(id),
-                cancellationToken);
+            await _sender.Send(new StartSessionCommand(id), cancellationToken);
 
             return NoContent();
         }
 
         [HttpPatch("{id:guid}/finish")]
-        public async Task<IActionResult> Finish(
-            Guid id,
+        public async Task<IActionResult> Finish(Guid id,
             CancellationToken cancellationToken)
         {
-            await _sender.Send(
-                new FinishSessionCommand(id),
-                cancellationToken);
+            await _sender.Send(new FinishSessionCommand(id), cancellationToken);
 
             return NoContent();
         }

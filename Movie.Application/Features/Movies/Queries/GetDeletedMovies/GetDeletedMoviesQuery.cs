@@ -1,11 +1,7 @@
-﻿using MediatR;
-using Movie.Application.Caching;
+﻿using Movie.Application.Caching;
 using Movie.Application.Common.Interfaces;
 using Movie.Application.Features.Movies.Queries.GetMovies;
 using Shared.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Features.Movies.Queries.GetDeletedMovies
 {

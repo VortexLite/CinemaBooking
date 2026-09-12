@@ -2,9 +2,6 @@
 using Movie.Application.Abstractions.Interfaces;
 using Movie.Application.Caching;
 using Movie.Domain.Events.Genre;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Features.Genres.Events
 {
@@ -48,20 +45,17 @@ namespace Movie.Application.Features.Genres.Events
         private async Task InvalidateGenreAsync(Guid genreId,
             CancellationToken cancellationToken)
         {
-            await _cacheService.RemoveByTagAsync(
-                CacheTags.Genre(genreId),
+            await _cacheService.RemoveByTagAsync(CacheTags.Genre(genreId),
                 cancellationToken);
 
-            await _cacheService.RemoveByTagAsync(
-                CacheTags.Genres,
+            await _cacheService.RemoveByTagAsync(CacheTags.Genres,
                 cancellationToken);
         }
 
         private Task InvalidateGenresAsync(
             CancellationToken cancellationToken)
         {
-            return _cacheService.RemoveByTagAsync(
-                CacheTags.Genres,
+            return _cacheService.RemoveByTagAsync(CacheTags.Genres,
                 cancellationToken);
         }
     }

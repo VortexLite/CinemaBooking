@@ -2,9 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Movie.Application.Common.Interfaces;
 using Movie.Infrastructure.BackgroundJobs.Sessions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.DependencyInjection
 {

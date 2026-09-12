@@ -1,5 +1,4 @@
-﻿using Mapster;
-using Movie.Api.Exceptions;
+﻿using Movie.Api.Exceptions;
 
 namespace Movie.Api.Extensions
 {

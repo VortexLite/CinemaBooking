@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Movie.Infrastructure.BackgroundJobs.Sessions
+﻿namespace Movie.Infrastructure.BackgroundJobs.Sessions
 {
     public sealed class SessionLifecycleOptions
     {
-        public const string SectionName =
-            "SessionLifecycle";
+        public const string SectionName = "SessionLifecycle";
 
         public int IntervalSeconds { get; init; } = 30;
 

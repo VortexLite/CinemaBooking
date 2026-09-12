@@ -4,9 +4,6 @@ using Movie.Domain.Common;
 using Movie.Infrastructure.Messaging.Outbox;
 using Movie.Infrastructure.Persistence.Outbox;
 using Shared.Contracts.IntegrationEvents;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.Persistence.Interceptors
 {
@@ -58,31 +55,21 @@ namespace Movie.Infrastructure.Persistence.Interceptors
             {
                 foreach (IDomainEvent domainEvent in aggregate.DomainEvents)
                 {
-                    IIntegrationEvent? integrationEvent =
-                        _mapper.Map(domainEvent);
+                    IIntegrationEvent? integrationEvent = _mapper.Map(domainEvent);
 
                     if (integrationEvent is null)
                         continue;
 
-                    OutboxMessage outboxMessage =
-                        _outboxMessageSerializer.Serialize(
-                            integrationEvent);
+                    OutboxMessage outboxMessage = _outboxMessageSerializer.Serialize(integrationEvent);
 
                     outboxMessages.Add(outboxMessage);
                 }
             }
 
             if (outboxMessages.Count > 0)
-            {
-                eventData.Context
-                    .Set<OutboxMessage>()
-                    .AddRange(outboxMessages);
-            }
+                eventData.Context.Set<OutboxMessage>().AddRange(outboxMessages);
 
-            return base.SavingChangesAsync(
-                eventData,
-                result,
-                cancellationToken);
+            return base.SavingChangesAsync(eventData, result, cancellationToken);
         }
     }
 }

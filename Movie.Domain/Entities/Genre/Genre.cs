@@ -1,12 +1,12 @@
 ﻿using Movie.Domain.Common;
 using Movie.Domain.Events.Genre;
-using Movie.Domain.Exceptions;
 
 namespace Movie.Domain.Entities.Genre
 {
     public sealed partial class Genre : AggregateRoot
     {
         public string Name { get; private set; } = string.Empty;
+
         private readonly List<MovieGenre.MovieGenre> _movieGenres = [];
         public IReadOnlyCollection<MovieGenre.MovieGenre> MovieGenres
             => _movieGenres;

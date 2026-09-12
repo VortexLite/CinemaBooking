@@ -1,12 +1,7 @@
 ﻿using MediatR;
 using Movie.Application.Abstractions.Interfaces;
-using Movie.Application.Caching;
 using Movie.Domain.Common;
-using Movie.Domain.Entities.Movie;
 using Shared.Common.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Features.Movies.Commands.PublishMovie
 {
@@ -26,14 +21,10 @@ namespace Movie.Application.Features.Movies.Commands.PublishMovie
         public async Task Handle(PublishMovieCommand request, 
             CancellationToken cancellationToken)
         {
-            var movie = await _movieRepository.GetWithGenresAsync(
-                request.Id,
-                cancellationToken);
+            var movie = await _movieRepository.GetWithGenresAsync(request.Id, cancellationToken);
 
             if (movie is null)
-                throw new NotFoundException(nameof(
-                    Domain.Entities.Movie.Movie), 
-                    request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.Movie.Movie), request.Id);
 
             movie.Publish();
 

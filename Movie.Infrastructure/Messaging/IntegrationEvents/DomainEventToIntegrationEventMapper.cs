@@ -5,9 +5,6 @@ using Movie.Domain.Events.Session;
 using Shared.Contracts.IntegrationEvents;
 using Shared.Contracts.IntegrationEvents.Movies;
 using Shared.Contracts.IntegrationEvents.Sessions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.Messaging.IntegrationEvents
 {

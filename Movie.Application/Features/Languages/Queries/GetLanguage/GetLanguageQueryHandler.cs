@@ -1,9 +1,6 @@
 ﻿using MediatR;
 using Movie.Application.Common.Interfaces;
 using Shared.Common.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Features.Languages.Queries.GetLanguage
 {
@@ -22,12 +19,8 @@ namespace Movie.Application.Features.Languages.Queries.GetLanguage
             GetLanguageQuery request,
             CancellationToken cancellationToken)
         {
-            return await _languageQueries.GetLanguageAsync(
-                       request.Id,
-                       cancellationToken)
-                   ?? throw new NotFoundException(
-                       nameof(Domain.Entities.Language.Language),
-                       request.Id);
+            return await _languageQueries.GetLanguageAsync(request.Id, cancellationToken)
+                   ?? throw new NotFoundException(nameof(Domain.Entities.Language.Language), request.Id);
         }
     }
 }

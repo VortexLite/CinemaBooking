@@ -1,9 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Movie.Domain.Entities.Genre;
-using Movie.Domain.Entities.Language;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.Persistence.Seed.Genres
 {

@@ -1,8 +1,4 @@
-﻿using Movie.Domain.Entities.MovieGenre;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Movie.Infrastructure.Persistence.Seed.Movies
 {

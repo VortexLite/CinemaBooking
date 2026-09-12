@@ -5,10 +5,6 @@ using Movie.Infrastructure.Messaging.Outbox.Metrics;
 using Movie.Infrastructure.Messaging.RabbitMQ;
 using Movie.Infrastructure.Messaging.RabbitMQ.Topology;
 using Movie.Infrastructure.Persistence.Interceptors;
-using Movie.Infrastructure.Persistence.Outbox;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.DependencyInjection
 {

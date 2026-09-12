@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Movie.Domain.Exceptions
+﻿namespace Movie.Domain.Exceptions
 {
     public sealed class DomainException : Exception
     {

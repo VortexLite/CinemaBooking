@@ -1,5 +1,4 @@
-﻿using Movie.Infrastructure.Messaging.IntegrationEvents;
-using Movie.Infrastructure.Persistence.Outbox;
+﻿using Movie.Infrastructure.Persistence.Outbox;
 using Shared.Contracts.IntegrationEvents;
 
 namespace Movie.Infrastructure.Messaging.Outbox
@@ -16,8 +15,7 @@ namespace Movie.Infrastructure.Messaging.Outbox
 
         public OutboxMessage Serialize(IIntegrationEvent integrationEvent)
         {
-            byte[] bytes = _serializer.Serialize(
-                integrationEvent,
+            byte[] bytes = _serializer.Serialize(integrationEvent,
                 integrationEvent.GetType());
 
             return new OutboxMessage(

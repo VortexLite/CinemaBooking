@@ -13,8 +13,7 @@ namespace Movie.Api.OpenAPI
             OpenApiDocumentTransformerContext context,
             CancellationToken cancellationToken)
         {
-            var authenticationSchemes =
-                await authenticationSchemeProvider.GetAllSchemesAsync();
+            var authenticationSchemes = await authenticationSchemeProvider.GetAllSchemesAsync();
 
             if (!authenticationSchemes.Any(x => x.Name == "Bearer"))
                 return;

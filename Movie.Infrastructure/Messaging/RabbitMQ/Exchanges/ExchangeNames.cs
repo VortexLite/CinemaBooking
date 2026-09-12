@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Movie.Infrastructure.Messaging.RabbitMQ.Exchanges
+﻿namespace Movie.Infrastructure.Messaging.RabbitMQ.Exchanges
 {
     public static class ExchangeNames
     {

@@ -1,24 +1,15 @@
-﻿using Movie.Application.Features.Movies.Queries.GetMovie;
-using Movie.Domain.Entities.Movie;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Movie.Application.Abstractions.Interfaces
+﻿namespace Movie.Application.Abstractions.Interfaces
 {
     public interface IMovieRepository
         : IBaseRepository<Domain.Entities.Movie.Movie>
     {
-        Task<Domain.Entities.Movie.Movie?> GetDetailsAsync(
-            Guid id,
+        Task<Domain.Entities.Movie.Movie?> GetDetailsAsync(Guid id,
             CancellationToken cancellationToken = default);
 
-        Task<Domain.Entities.Movie.Movie?> GetByTitleAsync(
-            string title,
+        Task<Domain.Entities.Movie.Movie?> GetByTitleAsync(string title,
             CancellationToken cancellationToken = default);
 
-        Task<bool> ExistAsync(
-            string title,
+        Task<bool> ExistAsync(string title,
             CancellationToken cancellationToken = default);
 
         Task<List<Domain.Entities.Movie.Movie>> GetPublishAsync(

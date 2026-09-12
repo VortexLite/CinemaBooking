@@ -1,11 +1,7 @@
 ﻿using MediatR;
 using Movie.Application.Abstractions.Interfaces;
-using Movie.Application.Caching;
 using Movie.Domain.Common;
 using Shared.Common.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Features.Movies.Commands.UpdateMovie
 {
@@ -26,20 +22,15 @@ namespace Movie.Application.Features.Movies.Commands.UpdateMovie
             _unitOfWork = unitOfWork;
         }
 
-        public async Task Handle(
-            UpdateMovieCommand request,
+        public async Task Handle(UpdateMovieCommand request,
             CancellationToken cancellationToken)
         {
-            var movie = await _movieRepository.GetByIdAsync(
-                request.Id,
-                cancellationToken);
+            var movie = await _movieRepository.GetByIdAsync(request.Id, cancellationToken);
 
             if (movie is null)
                 throw new NotFoundException(nameof(Domain.Entities.Movie.Movie));
 
-            if (!await _languageRepository.ExistsAsync(
-                    request.LanguageId,
-                    cancellationToken))
+            if (!await _languageRepository.ExistsAsync(request.LanguageId, cancellationToken))
                 throw new NotFoundException(nameof(Domain.Entities.Language.Language), request.LanguageId);
 
             movie.Update(

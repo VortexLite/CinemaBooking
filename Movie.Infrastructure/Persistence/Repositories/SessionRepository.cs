@@ -1,17 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Movie.Application.Abstractions.Interfaces;
-using Movie.Domain.Entities.Hall;
 using Movie.Domain.Entities.Session;
 using Movie.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.Persistence.Repositories
 {
     public sealed class SessionRepository
-        : BaseRepository<Session>,
-        ISessionRepository
+        : BaseRepository<Session>, ISessionRepository
     {
         public SessionRepository(MovieDbContext context)
             : base(context) { }

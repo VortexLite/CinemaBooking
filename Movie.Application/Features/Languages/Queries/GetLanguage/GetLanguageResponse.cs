@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Movie.Application.Features.Languages.Queries.GetLanguage
+﻿namespace Movie.Application.Features.Languages.Queries.GetLanguage
 {
     public sealed class GetLanguageResponse
     {

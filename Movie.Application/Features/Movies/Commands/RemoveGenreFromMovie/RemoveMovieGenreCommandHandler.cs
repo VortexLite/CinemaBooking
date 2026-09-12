@@ -2,9 +2,6 @@
 using Movie.Application.Abstractions.Interfaces;
 using Movie.Domain.Common;
 using Shared.Common.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Features.Movies.Commands.RemoveGenreFromMovie
 {
@@ -24,8 +21,7 @@ namespace Movie.Application.Features.Movies.Commands.RemoveGenreFromMovie
         public async Task Handle(RemoveMovieGenreCommand request,
             CancellationToken cancellationToken)
         {
-            var movie = await _movieRepository.GetWithGenresAsync(request.MovieId, 
-                cancellationToken);
+            var movie = await _movieRepository.GetWithGenresAsync(request.MovieId, cancellationToken);
 
             if (movie is null)
                 throw new NotFoundException(nameof(Domain.Entities.Movie.Movie), request.MovieId);

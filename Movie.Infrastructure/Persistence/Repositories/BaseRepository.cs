@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Movie.Application.Abstractions.Interfaces;
 using Movie.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.Persistence.Repositories
 {
@@ -30,20 +27,17 @@ namespace Movie.Infrastructure.Persistence.Repositories
         public virtual async Task AddAsync(TEntity entity, 
             CancellationToken cancellationToken = default)
         {
-            await _context.Set<TEntity>()
-                .AddAsync(entity, cancellationToken);
+            await _context.Set<TEntity>().AddAsync(entity, cancellationToken);
         }
 
         public void Update(TEntity entity)
         {
-            _context.Set<TEntity>()
-                .Update(entity);
+            _context.Set<TEntity>().Update(entity);
         }
 
         public void Remove(TEntity entity)
         {
-            _context.Set<TEntity>()
-                .Remove(entity);
+            _context.Set<TEntity>().Remove(entity);
         }
 
         

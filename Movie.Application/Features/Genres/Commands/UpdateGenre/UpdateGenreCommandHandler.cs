@@ -2,11 +2,7 @@
 using Movie.Application.Abstractions.Interfaces;
 using Movie.Domain.Common;
 using Movie.Domain.Entities.Genre;
-using Movie.Domain.Exceptions;
 using Shared.Common.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Features.Genres.Commands.UpdateGenre
 {
@@ -27,22 +23,18 @@ namespace Movie.Application.Features.Genres.Commands.UpdateGenre
         public async Task Handle(UpdateGenreCommand request, 
             CancellationToken cancellationToken)
         {
-            var genre = await _genreRepository.GetByIdAsync(
-                request.Id,
-                cancellationToken);
+            var genre = await _genreRepository.GetByIdAsync(request.Id, cancellationToken);
 
             if (genre is null)
                 throw new NotFoundException(nameof(Genre), request.Id);
 
-            var exists = await _genreRepository.ExistsByNameAsync(
-                request.Name,
-                cancellationToken);
+            var exists = await _genreRepository.ExistsByNameAsync(request.Name, cancellationToken);
 
             if (exists && !string.Equals(
                 genre.Name,
                 request.Name.Trim(),
                 StringComparison.OrdinalIgnoreCase))
-                throw new DomainException($"Genre '{request.Name}' already exists.");
+                throw new BusinessRuleException($"Genre '{request.Name}' already exists.");
 
             genre.Update(request.Name);
 

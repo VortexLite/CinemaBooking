@@ -2,9 +2,6 @@
 using Movie.Application.Abstractions.Interfaces;
 using Movie.Application.Caching;
 using Movie.Domain.Events.Session;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Features.Sessions.Events
 {
@@ -90,13 +87,9 @@ namespace Movie.Application.Features.Sessions.Events
         private async Task InvalidateSessionAsync(Guid sessionId,
             CancellationToken cancellationToken)
         {
-            await _cache.RemoveByTagAsync(
-                CacheTags.Session(sessionId),
-                cancellationToken);
+            await _cache.RemoveByTagAsync(CacheTags.Session(sessionId), cancellationToken);
 
-            await _cache.RemoveByTagAsync(
-                CacheTags.Sessions,
-                cancellationToken);
+            await _cache.RemoveByTagAsync(CacheTags.Sessions, cancellationToken);
         }
     }
 }

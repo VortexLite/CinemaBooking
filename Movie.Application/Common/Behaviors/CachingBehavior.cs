@@ -2,9 +2,6 @@
 using Microsoft.Extensions.Logging;
 using Movie.Application.Abstractions.Interfaces;
 using Movie.Application.Common.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Common.Behaviors
 {
@@ -15,7 +12,6 @@ namespace Movie.Application.Common.Behaviors
         private readonly ICacheService _cache;
         private readonly ICacheLockProvider _cacheLockProvider;
         private readonly ILogger<CachingBehavior<TRequest, TResponse>> _logger;
-
 
         public CachingBehavior(ICacheService cache,
             ICacheLockProvider cacheLockProvider,
@@ -30,33 +26,27 @@ namespace Movie.Application.Common.Behaviors
             RequestHandlerDelegate<TResponse> next, 
             CancellationToken cancellationToken)
         {
-            var cached = await _cache.GetAsync<TResponse>(
-                request.CacheKey, 
+            var cached = await _cache.GetAsync<TResponse>(request.CacheKey, 
                 cancellationToken);
 
             if (cached is not null)
             {
-                _logger.LogInformation("Cache HIT {CacheKey}",
-                    request.CacheKey);
+                _logger.LogInformation("Cache HIT {CacheKey}", request.CacheKey);
 
                 return cached;
             }
 
-            _logger.LogInformation("Cache MISS {CacheKey}",
-                request.CacheKey);
+            _logger.LogInformation("Cache MISS {CacheKey}", request.CacheKey);
 
-            await using var cacheLock = await _cacheLockProvider.LockAsync(
-                request.CacheKey,
+            await using var cacheLock = await _cacheLockProvider.LockAsync(request.CacheKey,
                 cancellationToken);
 
-            cached = await _cache.GetAsync<TResponse>(
-                request.CacheKey,
+            cached = await _cache.GetAsync<TResponse>(request.CacheKey,
                 cancellationToken);
 
             if (cached is not null)
             {
-                _logger.LogInformation("Cache HIT {CacheKey}",
-                    request.CacheKey);
+                _logger.LogInformation("Cache HIT {CacheKey}", request.CacheKey);
 
                 return cached;
             }
@@ -70,8 +60,7 @@ namespace Movie.Application.Common.Behaviors
                 request.Tags,
                 cancellationToken);
 
-            _logger.LogInformation("Cache SET {CacheKey}",
-                request.CacheKey);
+            _logger.LogInformation("Cache SET {CacheKey}", request.CacheKey);
 
             return response;
         }

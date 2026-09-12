@@ -24,9 +24,7 @@ namespace Movie.Application.Features.Movies.Commands.ArchiveMovie
         public async Task Handle(ArchiveMovieCommand request, 
             CancellationToken cancellationToken)
         {
-            var movie = await _movieRepository.GetByIdAsync(
-                request.Id, 
-                cancellationToken);
+            var movie = await _movieRepository.GetByIdAsync(request.Id, cancellationToken);
 
             if (movie is null)
                 throw new NotFoundException(nameof(Movie.Domain.Entities.Movie.Movie), request.Id);

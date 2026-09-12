@@ -1,10 +1,6 @@
-﻿using Movie.Application.Common.Interfaces;
-using Movie.Infrastructure.Messaging.Outbox;
+﻿using Movie.Infrastructure.Messaging.Outbox;
 using Movie.Infrastructure.Messaging.RabbitMQ.Exchanges;
 using RabbitMQ.Client;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.Messaging.RabbitMQ
 {
@@ -30,9 +26,7 @@ namespace Movie.Infrastructure.Messaging.RabbitMQ
                 publisherConfirmationTrackingEnabled: true);
 
             await using var channel = await _connection
-                .CreateChannelAsync(
-                    channelOptions,
-                    cancellationToken);
+                .CreateChannelAsync(channelOptions, cancellationToken);
 
             await channel.ExchangeDeclareAsync(
                 exchange: ExchangeNames.MovieEvents,
@@ -48,8 +42,8 @@ namespace Movie.Infrastructure.Messaging.RabbitMQ
                 Persistent = true,
                 ContentType = "application/x-msgpack",
                 Type = eventName,
-                MessageId = Guid.NewGuid().ToString(),
-                CorrelationId = Guid.NewGuid().ToString()
+                MessageId = Guid.CreateVersion7().ToString(),
+                CorrelationId = Guid.CreateVersion7().ToString()
             };
 
             await channel.BasicPublishAsync(

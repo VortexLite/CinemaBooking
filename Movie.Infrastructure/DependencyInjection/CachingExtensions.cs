@@ -4,9 +4,6 @@ using Movie.Application.Abstractions.Interfaces;
 using Movie.Application.Common.Interfaces;
 using Movie.Infrastructure.Caching;
 using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.DependencyInjection
 {

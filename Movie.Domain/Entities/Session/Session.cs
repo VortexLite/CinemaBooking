@@ -1,7 +1,6 @@
 ﻿using Movie.Domain.Common;
 using Movie.Domain.Enums;
 using Movie.Domain.Events.Session;
-using Movie.Domain.Exceptions;
 
 namespace Movie.Domain.Entities.Session
 {

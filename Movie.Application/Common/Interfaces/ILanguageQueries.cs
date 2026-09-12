@@ -1,8 +1,5 @@
 ﻿using Movie.Application.Features.Languages.Queries.GetLanguage;
 using Movie.Application.Features.Languages.Queries.GetLanguages;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Common.Interfaces
 {

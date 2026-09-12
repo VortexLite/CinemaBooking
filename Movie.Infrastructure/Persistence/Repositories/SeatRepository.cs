@@ -1,21 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Movie.Application.Abstractions.Interfaces;
 using Movie.Domain.Entities.Seat;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.Persistence.Repositories
 {
     public sealed class SeatRepository
-        : BaseRepository<Seat>,
-        ISeatRepository
+        : BaseRepository<Seat>, ISeatRepository
     {
         public SeatRepository(MovieDbContext context)
             : base(context) { }
 
-        public async Task<List<Seat>> GetByHallAsync(
-            Guid hallId, 
+        public async Task<List<Seat>> GetByHallAsync(Guid hallId, 
             CancellationToken cancellationToken = default)
         {
             return await _context.Seats
@@ -26,8 +21,7 @@ namespace Movie.Infrastructure.Persistence.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<Seat?> GetByPositionAsync(
-            Guid hallId, 
+        public async Task<Seat?> GetByPositionAsync(Guid hallId, 
             ushort row, 
             ushort number, 
             CancellationToken cancellationToken = default)
@@ -39,8 +33,7 @@ namespace Movie.Infrastructure.Persistence.Repositories
                     cancellationToken);
         }
 
-        public async Task<bool> ExistsAsync(
-            Guid hallId, 
+        public async Task<bool> ExistsAsync(Guid hallId, 
             ushort row, 
             ushort number, 
             CancellationToken cancellationToken = default)
@@ -53,8 +46,7 @@ namespace Movie.Infrastructure.Persistence.Repositories
                     cancellationToken);
         }
 
-        public async Task<int> CountAsync(
-            Guid hallId,
+        public async Task<int> CountAsync(Guid hallId,
             CancellationToken cancellationToken = default)
         {
             return await _context.Seats

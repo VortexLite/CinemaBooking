@@ -1,9 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 
 namespace Movie.Application.Common.Behaviors
 {
@@ -33,17 +30,13 @@ namespace Movie.Application.Common.Behaviors
 
             if (elapsed > 1000)
             {
-                _logger.LogWarning(
-                    "{RequestName} executed in {Elapsed} ms",
-                    typeof(TRequest).Name,
-                    elapsed);
+                _logger.LogWarning("{RequestName} executed in {Elapsed} ms",
+                    typeof(TRequest).Name, elapsed);
             }
             else
             {
-                _logger.LogInformation(
-                    "{RequestName} executed in {Elapsed} ms",
-                    typeof(TRequest).Name,
-                    elapsed);
+                _logger.LogInformation("{RequestName} executed in {Elapsed} ms",
+                    typeof(TRequest).Name, elapsed);
             }
 
             return response;

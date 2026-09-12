@@ -1,25 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Movie.Infrastructure.Persistence.Outbox
+﻿namespace Movie.Infrastructure.Persistence.Outbox
 {
     public sealed class OutboxDeadLetter
     {
         public Guid Id { get; private set; }
-
         public Guid OriginalMessageId { get; private set; }
-
         public string Type { get; private set; } = null!;
-
         public string Content { get; private set; } = null!;
-
         public DateTime OccurredOnUtc { get; private set; }
-
         public DateTime FailedOnUtc { get; private set; }
-
         public int RetryCount { get; private set; }
-
         public string Error { get; private set; } = null!;
 
         private OutboxDeadLetter() { }
@@ -32,7 +21,7 @@ namespace Movie.Infrastructure.Persistence.Outbox
             int retryCount,
             string error)
         {
-            Id = Guid.NewGuid();
+            Id = Guid.CreateVersion7();
 
             OriginalMessageId = originalMessageId;
 

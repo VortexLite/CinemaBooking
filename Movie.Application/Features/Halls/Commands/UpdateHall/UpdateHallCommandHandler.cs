@@ -1,11 +1,7 @@
 ﻿using MediatR;
 using Movie.Application.Abstractions.Interfaces;
 using Movie.Domain.Common;
-using Movie.Domain.Exceptions;
 using Shared.Common.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Features.Halls.Commands.UpdateHall
 {
@@ -29,12 +25,10 @@ namespace Movie.Application.Features.Halls.Commands.UpdateHall
         public async Task Handle(UpdateHallCommand request,
             CancellationToken cancellationToken)
         {
-            var hall = await _hallRepository.GetByIdAsync(request.Id,
-                cancellationToken);
+            var hall = await _hallRepository.GetByIdAsync(request.Id, cancellationToken);
 
             if (hall is null)
-                throw new NotFoundException(nameof(Domain.Entities.Hall.Hall),
-                request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.Hall.Hall), request.Id);
 
             var layoutChanged = hall.Rows != request.Rows ||
                 hall.Columns != request.Columns;
@@ -42,19 +36,17 @@ namespace Movie.Application.Features.Halls.Commands.UpdateHall
             var utcNow = _timeProvider.GetUtcNow().UtcDateTime;
 
             if (layoutChanged &&
-                await _hallRepository.HasFutureSessionsAsync(hall.Id, utcNow,
-                    cancellationToken))
-                throw new DomainException("Hall layout cannot be changed while future sessions exist.");
+                await _hallRepository.HasFutureSessionsAsync(hall.Id, utcNow, cancellationToken))
+                throw new BusinessRuleException("Hall layout cannot be changed while future sessions exist.");
 
-            var nameExists = await _hallRepository.ExistsByNameAsync(request.Name,
-                cancellationToken);
+            var nameExists = await _hallRepository.ExistsByNameAsync(request.Name, cancellationToken);
 
             if (nameExists &&
                 !string.Equals(
                     hall.Name,
                     request.Name.Trim(),
                     StringComparison.OrdinalIgnoreCase))
-                throw new DomainException($"Hall '{request.Name}' already exists.");
+                throw new BusinessRuleException($"Hall '{request.Name}' already exists.");
 
             hall.Update(
                 request.Name,

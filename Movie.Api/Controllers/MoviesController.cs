@@ -1,6 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Movie.Api.Contracts.Movies;
 using Movie.Application.Features.Movies.Commands.AddGenreToMovie;
@@ -56,13 +54,10 @@ namespace Movie.Api.Controllers
         /// Отримати фільм по Id
         /// </summary>
         [HttpGet("{id:guid}")]
-        public async Task<ActionResult<GetMovieResponse>> GetMovie(
-            Guid id,
+        public async Task<ActionResult<GetMovieResponse>> GetMovie(Guid id,
             CancellationToken cancellationToken)
         {
-            var movie = await _sender.Send(
-                new GetMovieQuery(id),
-                cancellationToken);
+            var movie = await _sender.Send(new GetMovieQuery(id), cancellationToken);
 
             return Ok(movie);
         }
@@ -75,31 +70,23 @@ namespace Movie.Api.Controllers
             [FromBody] CreateMovieCommand command,
             CancellationToken cancellationToken)
         {
-            var id = await _sender.Send(
-                command,
-                cancellationToken);
+            var id = await _sender.Send(command, cancellationToken);
 
-            return CreatedAtAction(
-                nameof(GetMovie),
-                new { id },
-                id);
+            return CreatedAtAction(nameof(GetMovie), new { id }, id);
         }
 
         /// <summary>
         /// Оновити фільм
         /// </summary>
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateMovie(
-            Guid id,
+        public async Task<IActionResult> UpdateMovie(Guid id,
             [FromBody] UpdateMovieCommand command,
             CancellationToken cancellationToken)
         {
             if (id != command.Id)
                 return BadRequest();
 
-            await _sender.Send(
-                command,
-                cancellationToken);
+            await _sender.Send(command, cancellationToken);
 
             return NoContent();
         }
@@ -108,13 +95,10 @@ namespace Movie.Api.Controllers
         /// Видалити фільм
         /// </summary>
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteMovie(
-            Guid id,
+        public async Task<IActionResult> DeleteMovie(Guid id,
             CancellationToken cancellationToken)
         {
-            await _sender.Send(
-                new DeleteMovieCommand(id),
-                cancellationToken);
+            await _sender.Send(new DeleteMovieCommand(id), cancellationToken);
 
             return NoContent();
         }
@@ -123,13 +107,10 @@ namespace Movie.Api.Controllers
         /// Опублікувати фільм
         /// </summary>
         [HttpPatch("{id:guid}/publish")]
-        public async Task<IActionResult> PublishMovie(
-            Guid id,
+        public async Task<IActionResult> PublishMovie(Guid id,
             CancellationToken cancellationToken)
         {
-            await _sender.Send(
-                new PublishMovieCommand(id),
-                cancellationToken);
+            await _sender.Send(new PublishMovieCommand(id), cancellationToken);
 
             return NoContent();
         }
@@ -141,8 +122,7 @@ namespace Movie.Api.Controllers
         public async Task<ActionResult<PagedResult<GetMoviesResponse>>> GetPublishedMovies(
             CancellationToken cancellationToken)
         {
-            return Ok(await _sender.Send(
-                new GetMoviesQuery(
+            return Ok(await _sender.Send(new GetMoviesQuery(
                     Search: null,
                     Status: MovieStatus.Published,
                     GenreId: null,
@@ -157,13 +137,10 @@ namespace Movie.Api.Controllers
         /// Архівувати фільм
         /// </summary>
         [HttpPatch("{id:guid}/archive")]
-        public async Task<IActionResult> ArchiveMovie(
-            Guid id,
+        public async Task<IActionResult> ArchiveMovie(Guid id,
             CancellationToken cancellationToken)
         {
-            await _sender.Send(
-                new ArchiveMovieCommand(id),
-                cancellationToken);
+            await _sender.Send(new ArchiveMovieCommand(id), cancellationToken);
 
             return NoContent();
         }
@@ -175,8 +152,7 @@ namespace Movie.Api.Controllers
         public async Task<ActionResult<PagedResult<GetMoviesResponse>>> GetArchivedMovies(
             CancellationToken cancellationToken)
         {
-            return Ok(await _sender.Send(
-                new GetMoviesQuery(
+            return Ok(await _sender.Send(new GetMoviesQuery(
                     null,
                     MovieStatus.Archived,
                     null,
@@ -194,8 +170,7 @@ namespace Movie.Api.Controllers
         public async Task<ActionResult<PagedResult<GetMoviesResponse>>> GetDraftMovies(
             CancellationToken cancellationToken)
         {
-            return Ok(await _sender.Send(
-                new GetMoviesQuery(
+            return Ok(await _sender.Send(new GetMoviesQuery(
                     null,
                     MovieStatus.Draft,
                     null,
@@ -210,13 +185,10 @@ namespace Movie.Api.Controllers
         /// Відновити видалений фільм
         /// </summary>
         [HttpPatch("{id:guid}/restore")]
-        public async Task<IActionResult> RestoreMovie(
-            Guid id,
+        public async Task<IActionResult> RestoreMovie(Guid id,
             CancellationToken cancellationToken)
         {
-            await _sender.Send(
-                new RestoreMovieCommand(id),
-                cancellationToken);
+            await _sender.Send(new RestoreMovieCommand(id), cancellationToken);
 
             return NoContent();
         }
@@ -244,8 +216,7 @@ namespace Movie.Api.Controllers
             [FromQuery] string search,
             CancellationToken cancellationToken)
         {
-            return Ok(await _sender.Send(
-                new GetMoviesQuery(
+            return Ok(await _sender.Send(new GetMoviesQuery(
                     search,
                     null,
                     null,
@@ -260,12 +231,10 @@ namespace Movie.Api.Controllers
         /// Отримати фільми за жанром
         /// </summary>
         [HttpGet("genre/{genreId:guid}")]
-        public async Task<ActionResult<PagedResult<GetMoviesResponse>>> GetByGenre(
-            Guid genreId,
+        public async Task<ActionResult<PagedResult<GetMoviesResponse>>> GetByGenre(Guid genreId,
             CancellationToken cancellationToken)
         {
-            return Ok(await _sender.Send(
-                new GetMoviesQuery(
+            return Ok(await _sender.Send(new GetMoviesQuery(
                     null,
                     null,
                     genreId,
@@ -280,12 +249,10 @@ namespace Movie.Api.Controllers
         /// Отримати фільми за мовою
         /// </summary>
         [HttpGet("language/{languageId:guid}")]
-        public async Task<ActionResult<PagedResult<GetMoviesResponse>>> GetByLanguage(
-            Guid languageId,
+        public async Task<ActionResult<PagedResult<GetMoviesResponse>>> GetByLanguage(Guid languageId,
             CancellationToken cancellationToken)
         {
-            return Ok(await _sender.Send(
-                new GetMoviesQuery(
+            return Ok(await _sender.Send(new GetMoviesQuery(
                     null,
                     null,
                     null,
@@ -300,13 +267,10 @@ namespace Movie.Api.Controllers
         /// Додати жанр до фільму
         /// </summary>
         [HttpPost("{movieId:guid}/genres/{genreId:guid}")]
-        public async Task<IActionResult> AddGenre(
-            Guid movieId,
-            Guid genreId,
+        public async Task<IActionResult> AddGenre(Guid movieId, Guid genreId,
             CancellationToken cancellationToken)
         {
-            await _sender.Send(
-                new AddMovieGenreCommand(
+            await _sender.Send(new AddMovieGenreCommand(
                     movieId,
                     genreId),
                 cancellationToken);
@@ -318,13 +282,10 @@ namespace Movie.Api.Controllers
         /// Видалити жанр з фільму
         /// </summary>
         [HttpDelete("{movieId:guid}/genres/{genreId:guid}")]
-        public async Task<IActionResult> RemoveGenre(
-            Guid movieId,
-            Guid genreId,
+        public async Task<IActionResult> RemoveGenre(Guid movieId, Guid genreId,
             CancellationToken cancellationToken)
         {
-            await _sender.Send(
-                new RemoveMovieGenreCommand(
+            await _sender.Send(new RemoveMovieGenreCommand(
                     movieId,
                     genreId),
                 cancellationToken);

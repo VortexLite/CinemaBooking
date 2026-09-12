@@ -2,9 +2,6 @@
 using Movie.Application.Abstractions.Interfaces;
 using Movie.Domain.Common;
 using Shared.Common.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Features.Languages.Commands.DeleteLanguage
 {
@@ -25,12 +22,10 @@ namespace Movie.Application.Features.Languages.Commands.DeleteLanguage
         public async Task Handle(DeleteLanguageCommand request, 
             CancellationToken cancellationToken)
         {
-            var language = await _languageRepository.GetByIdAsync(request.Id,
-                cancellationToken);
+            var language = await _languageRepository.GetByIdAsync(request.Id, cancellationToken);
 
             if (language is null)
-                throw new NotFoundException(nameof(Domain.Entities.Language.Language),
-                request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.Language.Language), request.Id);
 
             language.Delete();
 

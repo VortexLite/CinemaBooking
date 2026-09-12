@@ -1,8 +1,5 @@
 ﻿using Movie.Infrastructure.Messaging.RabbitMQ.Exchanges;
 using RabbitMQ.Client;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.Messaging.RabbitMQ.Topology
 {

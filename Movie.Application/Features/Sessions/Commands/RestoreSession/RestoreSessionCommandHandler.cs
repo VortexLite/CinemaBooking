@@ -5,9 +5,6 @@ using Movie.Domain.Common;
 using Movie.Domain.Entities.Session;
 using Movie.Domain.Enums;
 using Shared.Common.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Features.Sessions.Commands.RestoreSession
 {
@@ -61,8 +58,7 @@ namespace Movie.Application.Features.Sessions.Commands.RestoreSession
             if (hasConflict)
                 throw new BusinessRuleException("The session cannot be restored because the hall is already occupied during this time period.");
 
-            var movie = await _movieRepository.GetByIdAsync(session.MovieId, 
-                cancellationToken);
+            var movie = await _movieRepository.GetByIdAsync(session.MovieId, cancellationToken);
 
             if (movie is null)
                 throw new BusinessRuleException("Session cannot be restored because its movie is unavailable.");
@@ -70,8 +66,7 @@ namespace Movie.Application.Features.Sessions.Commands.RestoreSession
             if (movie.Status != MovieStatus.Published)
                 throw new BusinessRuleException("Session cannot be restored because its movie is not published.");
 
-            var hall = await _hallRepository.GetByIdAsync(session.HallId,
-                cancellationToken);
+            var hall = await _hallRepository.GetByIdAsync(session.HallId, cancellationToken);
 
             if (hall is null)
                 throw new BusinessRuleException("Session cannot be restored because its hall is unavailable.");

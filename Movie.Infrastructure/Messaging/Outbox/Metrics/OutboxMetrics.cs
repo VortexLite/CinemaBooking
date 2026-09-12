@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Metrics;
-using System.Text;
+﻿using System.Diagnostics.Metrics;
 
 namespace Movie.Infrastructure.Messaging.Outbox.Metrics
 {
@@ -61,37 +58,22 @@ namespace Movie.Infrastructure.Messaging.Outbox.Metrics
 
         public void Published(string eventType)
         {
-            _published.Add(
-                1,
-                new KeyValuePair<string, object?>(
-                    "event.type",
-                    eventType));
+            _published.Add(1, new KeyValuePair<string, object?>("event.type", eventType));
         }
 
         public void Failed(string eventType)
         {
-            _failed.Add(
-                1,
-                new KeyValuePair<string, object?>(
-                    "event.type",
-                    eventType));
+            _failed.Add(1, new KeyValuePair<string, object?>("event.type", eventType));
         }
 
         public void Retried(string eventType)
         {
-            _retried.Add(
-                1,
-                new KeyValuePair<string, object?>(
-                    "event.type",
-                    eventType));
+            _retried.Add(1, new KeyValuePair<string, object?>("event.type", eventType));
         }
 
         public void DeadLettered(string eventType)
         {
-            _deadLettered.Add(1,
-                new KeyValuePair<string, object?>(
-                    "event.type",
-                    eventType));
+            _deadLettered.Add(1,new KeyValuePair<string, object?>("event.type", eventType));
         }
 
         public void Cleaned(int count)
@@ -101,22 +83,16 @@ namespace Movie.Infrastructure.Messaging.Outbox.Metrics
 
 
 
-        public void RecordProcessingDuration(
-            string eventType,
-            TimeSpan duration)
+        public void RecordProcessingDuration(string eventType, TimeSpan duration)
         {
             _processingDuration.Record(duration.TotalMilliseconds,
-                new KeyValuePair<string, object?>(
-                    "event.type",
-                    eventType));
+                new KeyValuePair<string, object?>("event.type", eventType));
         }
 
         public void RecordPublishLag(string eventType, TimeSpan lag)
         {
-            _publishLag.Record(lag.TotalSeconds,
-                new KeyValuePair<string, object?>(
-                    "event.type",
-                    eventType));
+            _publishLag.Record(lag.TotalSeconds,new KeyValuePair<string, object?>(
+                "event.type", eventType));
         }
     }
 }

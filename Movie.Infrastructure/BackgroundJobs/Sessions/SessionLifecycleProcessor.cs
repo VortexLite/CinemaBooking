@@ -3,9 +3,6 @@ using Microsoft.Extensions.Options;
 using Movie.Application.Abstractions.Interfaces;
 using Movie.Application.Common.Interfaces;
 using Movie.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.BackgroundJobs.Sessions
 {

@@ -29,9 +29,7 @@ namespace Movie.Application.Features.Movies.Commands.RestoreMovie
             RestoreMovieCommand request, 
             CancellationToken cancellationToken)
         {
-            var movie = await _movieRepository.GetDeletedByIdAsync(
-                request.Id,
-                cancellationToken);
+            var movie = await _movieRepository.GetDeletedByIdAsync(request.Id, cancellationToken);
 
             if (movie is null)
                 throw new NotFoundException(nameof(Movie.Domain.Entities.Movie.Movie), request.Id);
@@ -45,7 +43,7 @@ namespace Movie.Application.Features.Movies.Commands.RestoreMovie
             if (!languageExists)
                 throw new BusinessRuleException("Movie cannot be restored because its language is unavailable.");
 
-            Guid[] genreIds = movie.MovieGenres
+            var genreIds = movie.MovieGenres
                 .Select(x => x.GenreId)
                 .Distinct()
                 .ToArray();

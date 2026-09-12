@@ -1,8 +1,5 @@
 ﻿using FluentValidation;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Common.Behaviors
 {
@@ -27,8 +24,8 @@ namespace Movie.Application.Common.Behaviors
             var context = new ValidationContext<TRequest>(request);
 
             var results = await Task.WhenAll(
-                _validators.Select(v => v.ValidateAsync(
-                    context, cancellationToken)));
+                _validators.Select(v => v.ValidateAsync(context, 
+                cancellationToken)));
 
             var failures = results
                 .SelectMany(r => r.Errors)

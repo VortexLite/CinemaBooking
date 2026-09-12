@@ -3,9 +3,6 @@ using Movie.Application.Abstractions.Interfaces;
 using Movie.Domain.Common;
 using Movie.Domain.Entities.Hall;
 using Shared.Common.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Features.Halls.Commands.ChangeSeatType
 {
@@ -29,18 +26,15 @@ namespace Movie.Application.Features.Halls.Commands.ChangeSeatType
         public async Task Handle(ChangeSeatTypeCommand request, 
             CancellationToken cancellationToken)
         {
-            var hall = await _hallRepository.GetWithSeatsAsync(request.HallId,
-                cancellationToken);
+            var hall = await _hallRepository.GetWithSeatsAsync(request.HallId, cancellationToken);
 
             if (hall is null)
                 throw new NotFoundException(nameof(Hall),request.HallId);
 
             var utcNow = _timeProvider.GetUtcNow().UtcDateTime;
 
-            if (await _hallRepository.HasFutureSessionsAsync(hall.Id, utcNow,
-                    cancellationToken))
-                throw new BusinessRuleException(
-                    "Seat type cannot be changed while future sessions exist.");
+            if (await _hallRepository.HasFutureSessionsAsync(hall.Id, utcNow, cancellationToken))
+                throw new BusinessRuleException("Seat type cannot be changed while future sessions exist.");
 
             hall.ChangeSeatType(request.SeatId, request.Type);
 
