@@ -8,12 +8,7 @@
 
   <ItemGroup>
     <Folder Include="Abstractions\" />
-    <Folder Include="Features\Movies\Commands\AddGenreToMovie\" />
-    <Folder Include="Features\Movies\Commands\RemoveGenreFromMovie\" />
     <Folder Include="Features\Movies\Commands\ChangeMovieLanguage\" />
-    <Folder Include="Features\Movies\Queries\GetDeletedMovies\" />
-    <Folder Include="Features\Sessions\Commands\" />
-    <Folder Include="Features\Sessions\Queries\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -20,6 +20,8 @@ namespace Movie.Infrastructure.DependencyInjection
 
             services.AddScoped<IHallQueries, HallQueries>();
 
+            services.AddScoped<ISessionQueries, SessionQueries>();
+
             return services;
         }
     }

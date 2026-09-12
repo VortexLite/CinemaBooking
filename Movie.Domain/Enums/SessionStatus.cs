@@ -10,12 +10,10 @@ namespace Movie.Domain.Enums
 
         OpenForBooking = 2,
 
-        SoldOut = 3,
+        Started = 3,
 
-        Started = 4,
+        Finished = 4,
 
-        Finished = 5,
-
-        Cancelled = 6
+        Cancelled = 5
     }
 }

@@ -42,6 +42,7 @@ namespace Movie.Domain.Entities.Movie
             ValidateDuration(durationMinutes);
             ValidateAgeRestriction(ageRestriction);
             ValidatePoster(posterUrl);
+            ValidateTrailer(trailerUrl);
             ValidateReleaseDate(releaseDate);
             ValidateLanguage(languageId);
 
@@ -49,8 +50,10 @@ namespace Movie.Domain.Entities.Movie
             Description = description.Trim();
             DurationMinutes = durationMinutes;
             AgeRestriction = ageRestriction;
-            PosterUrl = posterUrl;
-            TrailerUrl = trailerUrl;
+            PosterUrl = posterUrl.Trim();
+            TrailerUrl = string.IsNullOrWhiteSpace(trailerUrl)
+                ? null
+                : trailerUrl.Trim();
             ReleaseDate = releaseDate;
             LanguageId = languageId;
 

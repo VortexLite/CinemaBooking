@@ -4,8 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using Movie.Application.Abstractions.Interfaces;
 using Movie.Application.Caching;
 using Movie.Application.Common.Interfaces;
+using Movie.Application.Features.Movies.Queries.GetDeletedMovies;
 using Movie.Application.Features.Movies.Queries.GetMovie;
 using Movie.Application.Features.Movies.Queries.GetMovies;
+using Movie.Domain.Entities.Movie;
 using Movie.Domain.Enums;
 using Shared.Common.Models;
 using System;
@@ -143,6 +145,33 @@ namespace Movie.Infrastructure.Persistence.Queries
                 cancellationToken);
 
             return result;
+        }
+
+        public async Task<PagedResult<GetMoviesResponse>> GetDeletedMoviesAsync(
+            GetDeletedMoviesQuery request, 
+            CancellationToken cancellationToken = default)
+        {
+            var query = _context.Movies
+                .IgnoreQueryFilters()
+                .AsNoTracking()
+                .Where(x => x.IsDeleted);
+
+            var totalCount = await query.CountAsync(cancellationToken);
+
+            var items = await query
+                .OrderBy(x => x.Title)
+                .Skip((request.Page - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ProjectToType<GetMoviesResponse>()
+                .ToListAsync(cancellationToken);
+
+            return new PagedResult<GetMoviesResponse>
+            {
+                Items = items,
+                Page = request.Page,
+                PageSize = request.PageSize,
+                TotalCount = totalCount
+            };
         }
     }
 }

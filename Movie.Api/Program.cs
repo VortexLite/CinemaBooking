@@ -1,4 +1,3 @@
-using Movie.Api.DependencyInjection;
 using Movie.Api.Extensions;
 using Movie.Application.DependencyInjection;
 using Movie.Infrastructure.DependencyInjection;
@@ -21,8 +20,6 @@ builder.AddInfrastructureAspire();
 builder.Services.AddApplication();
 
 builder.Services.AddInfrastructure(builder.Configuration);
-
-builder.Services.AddExceptionHandling();
 
 var app = builder.Build();
 

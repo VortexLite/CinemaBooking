@@ -21,6 +21,9 @@ namespace Movie.Application.Caching
         public const string HallPrefix = "hall:";
         public const string HallsPrefix = "halls:";
 
+        public const string SessionPrefix = "session:";
+        public const string SessionsPrefix = "sessions:";
+
         #endregion
 
         #region Movies
@@ -43,6 +46,19 @@ namespace Movie.Application.Caching
                    $"genre:{genreId?.ToString() ?? "all"}:" +
                    $"language:{languageId?.ToString() ?? "all"}:" +
                    $"deleted:{includeDeleted}:" +
+                   $"page:{page}:" +
+                   $"size:{pageSize}";
+        }
+
+        #endregion
+
+        #region MoviesDeleted
+
+        public static string MoviesDeleted(
+            int page,
+            int pageSize)
+        {
+            return $"{MoviesPrefix}:deleted:" +
                    $"page:{page}:" +
                    $"size:{pageSize}";
         }
@@ -79,6 +95,34 @@ namespace Movie.Application.Caching
 
         public static string Halls(bool includeDeleted)
             => $"{HallsPrefix}deleted:{includeDeleted}";
+
+        #endregion
+
+        #region Sessions
+
+        public static string Session(Guid id)
+            => $"{SessionPrefix}{id}";
+
+        public static string Sessions(bool includeDeleted)
+            => $"{SessionsPrefix}deleted:{includeDeleted}";
+
+        public static string Sessions(
+            DateTime? fromUtc,
+            DateTime? toUtc,
+            Guid? movieId,
+            Guid? hallId,
+            SessionStatus? status,
+            bool includeDeleted)
+        {
+            return
+                $"{SessionsPrefix}" +
+                $"from={fromUtc?.ToUniversalTime():O};" +
+                $"to={toUtc?.ToUniversalTime():O};" +
+                $"movie={movieId};" +
+                $"hall={hallId};" +
+                $"status:{status?.ToString() ?? "all"}:" +
+                $"deleted={includeDeleted}";
+        }
 
         #endregion
     }

@@ -21,35 +21,34 @@ namespace Movie.Application.Features.Languages.Events
             _cache = cache;
         }
 
-        public Task Handle(LanguageCreatedEvent notification, 
+        public async Task Handle(LanguageCreatedEvent notification, 
             CancellationToken cancellationToken)
         {
-            return _cache.RemoveByTagAsync(
+            await _cache.RemoveByTagAsync(
                 CacheTags.Languages,
                 cancellationToken);
         }
 
-        public Task Handle(LanguageUpdatedEvent notification, 
+        public async Task Handle(LanguageUpdatedEvent notification, 
             CancellationToken cancellationToken)
         {
-            return InvalidateAsync(notification.LanguageId, cancellationToken);
+            await InvalidateAsync(notification.LanguageId, cancellationToken);
         }
 
-        public Task Handle(LanguageDeletedEvent notification, 
+        public async Task Handle(LanguageDeletedEvent notification, 
             CancellationToken cancellationToken)
         {
-            return InvalidateAsync(notification.LanguageId, cancellationToken);
+            await InvalidateAsync(notification.LanguageId, cancellationToken);
         }
 
-        public Task Handle(LanguageRestoredEvent notification, 
+        public async Task Handle(LanguageRestoredEvent notification, 
             CancellationToken cancellationToken)
         {
-            return InvalidateAsync(notification.LanguageId, cancellationToken);
+            await InvalidateAsync(notification.LanguageId, cancellationToken);
         }
 
-        private async Task InvalidateAsync(
-        Guid languageId,
-        CancellationToken cancellationToken)
+        private async Task InvalidateAsync(Guid languageId,
+            CancellationToken cancellationToken)
         {
             await _cache.RemoveByTagAsync(
                 CacheTags.Language(languageId),

@@ -25,7 +25,7 @@ namespace Movie.Application.Common.Mapping
 
 
 
-            config.NewConfig<Domain.Entities.Movie.Movie, GetMovieResponse>()
+            config.NewConfig<Domain.Entities.Movie.Movie, GetMoviesResponse>()
 
                 .Map(dest => dest.LanguageName,
                      src => src.Language.Name)

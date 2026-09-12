@@ -4,6 +4,7 @@ using Movie.Infrastructure.Messaging.IntegrationEvents;
 using Movie.Infrastructure.Messaging.Outbox.Metrics;
 using Movie.Infrastructure.Persistence;
 using Movie.Infrastructure.Persistence.Outbox;
+using Shared.Contracts.IntegrationEvents;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -180,7 +181,6 @@ namespace Movie.Infrastructure.Messaging.Outbox
                     "Outbox message {MessageId} scheduled for retry in {RetryDelay}. Attempt {Attempt}/{MaxAttempts}",
                     message.Id,
                     retryDelay,
-                    failedAttempt,
                     failedAttempt,
                     MaxRetryCount);
             }

@@ -9,12 +9,14 @@ namespace Movie.Infrastructure.Persistence.Seed.Genres
 {
     public static class GenreSeeder
     {
-        public static async Task SeedAsync(MovieDbContext context)
+        public static async Task SeedAsync(MovieDbContext context,
+            CancellationToken cancellationToken = default)
         {
-            if (await context.Genres.AnyAsync())
+            if (await context.Genres.AnyAsync(cancellationToken))
                 return;
-            
-            await context.Genres.AddRangeAsync(
+
+            var genres = new[]
+            {
                 new Genre("Action"),
                 new Genre("Adventure"),
                 new Genre("Comedy"),
@@ -30,7 +32,9 @@ namespace Movie.Infrastructure.Persistence.Seed.Genres
                 new Genre("History"),
                 new Genre("Biography"),
                 new Genre("Family")
-            );
+            };
+
+            await context.AddRangeAsync(genres, cancellationToken);
 
             await context.SaveChangesAsync();
         }

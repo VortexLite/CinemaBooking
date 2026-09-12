@@ -21,28 +21,28 @@ namespace Movie.Application.Features.Genres.Events
             _cacheService = cacheService;
         }
 
-        public Task Handle(GenreCreatedEvent notification, 
+        public async Task Handle(GenreCreatedEvent notification, 
             CancellationToken cancellationToken)
         {
-            return InvalidateGenresAsync(cancellationToken);
+            await InvalidateGenresAsync(cancellationToken);
         }
 
-        public Task Handle(GenreUpdatedEvent notification, 
+        public async Task Handle(GenreUpdatedEvent notification, 
             CancellationToken cancellationToken)
         {
-            return InvalidateGenreAsync(notification.GenreId, cancellationToken);
+            await InvalidateGenreAsync(notification.GenreId, cancellationToken);
         }
 
-        public Task Handle(GenreDeletedEvent notification, 
+        public async Task Handle(GenreDeletedEvent notification, 
             CancellationToken cancellationToken)
         {
-            return InvalidateGenreAsync(notification.GenreId, cancellationToken);
+            await InvalidateGenreAsync(notification.GenreId, cancellationToken);
         }
 
-        public Task Handle(GenreRestoredEvent notification,
+        public async Task Handle(GenreRestoredEvent notification,
             CancellationToken cancellationToken)
         {
-            return InvalidateGenreAsync(notification.GenreId, cancellationToken);
+            await InvalidateGenreAsync(notification.GenreId, cancellationToken);
         }
 
         private async Task InvalidateGenreAsync(Guid genreId,
@@ -58,7 +58,7 @@ namespace Movie.Application.Features.Genres.Events
         }
 
         private Task InvalidateGenresAsync(
-        CancellationToken cancellationToken)
+            CancellationToken cancellationToken)
         {
             return _cacheService.RemoveByTagAsync(
                 CacheTags.Genres,

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Movie.Application.Abstractions.Interfaces;
 using Movie.Application.Features.Movies.Queries.GetMovie;
+using Movie.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -54,7 +55,7 @@ namespace Movie.Infrastructure.Persistence.Repositories
             return await _context.Movies
                 .AsNoTracking()
                 .Where(x => x.Status
-                    == Domain.Enums.MovieStatus.Published)
+                    == MovieStatus.Published)
                 .OrderBy(x => x.Title)
                 .ToListAsync(cancellationToken);
         }
@@ -65,24 +66,10 @@ namespace Movie.Infrastructure.Persistence.Repositories
         {
             return await _context.Movies
                 .IgnoreQueryFilters()
+                .Include(x => x.MovieGenres)
                 .FirstOrDefaultAsync(
                     x => x.Id == id,
                     cancellationToken);
-        }
-
-        public async Task RestoreAsync(Guid id,
-            CancellationToken cancellationToken = default)
-        {
-            var movie = await _context.Movies
-                .IgnoreQueryFilters()
-                .FirstOrDefaultAsync(
-                    x => x.Id == id,
-                    cancellationToken);
-
-            if (movie is null)
-                return;
-
-            movie.Restore();
         }
 
         public async Task<List<Domain.Entities.Movie.Movie>> GetDeletedAsync(
@@ -92,6 +79,28 @@ namespace Movie.Infrastructure.Persistence.Repositories
                 .IgnoreQueryFilters()
                 .Where(x => x.IsDeleted)
                 .ToListAsync(cancellationToken);
+        }
+
+        public async Task<bool> HasActiveOrFutureSessionsAsync(Guid movieId, DateTime utcNow,
+            CancellationToken cancellationToken = default)
+        {
+            return await _context.Sessions
+                .AnyAsync(x => 
+                    x.MovieId == movieId && 
+                    x.EndTime > utcNow &&
+                    x.Status != SessionStatus.Cancelled &&
+                    x.Status != SessionStatus.Finished,
+                cancellationToken);
+        }
+
+        public async Task<Domain.Entities.Movie.Movie?> GetWithGenresAsync(Guid id,
+            CancellationToken cancellationToken = default)
+        {
+            return await _context.Movies
+                .Include(x => x.MovieGenres)
+                .FirstOrDefaultAsync(
+                    x => x.Id == id,
+                    cancellationToken);
         }
     }
 }

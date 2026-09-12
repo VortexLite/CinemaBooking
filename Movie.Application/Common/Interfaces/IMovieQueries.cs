@@ -1,4 +1,5 @@
-﻿using Movie.Application.Features.Movies.Queries.GetMovie;
+﻿using Movie.Application.Features.Movies.Queries.GetDeletedMovies;
+using Movie.Application.Features.Movies.Queries.GetMovie;
 using Movie.Application.Features.Movies.Queries.GetMovies;
 using Shared.Common.Models;
 using System;
@@ -17,5 +18,8 @@ namespace Movie.Application.Common.Interfaces
             GetMoviesQuery query,
             CancellationToken cancellationToken = default);
 
+        Task<PagedResult<GetMoviesResponse>> GetDeletedMoviesAsync(
+            GetDeletedMoviesQuery request,
+            CancellationToken cancellationToken = default);
     }
 }

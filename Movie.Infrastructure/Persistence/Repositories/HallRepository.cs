@@ -59,13 +59,14 @@ namespace Movie.Infrastructure.Persistence.Repositories
                     cancellationToken);
         }
 
-        public async Task<bool> HasFutureSessionsAsync(Guid hallId, 
+        public async Task<bool> HasFutureSessionsAsync(Guid hallId,
+            DateTime utcNow,
             CancellationToken cancellationToken = default)
         {
             return await _context.Sessions
                 .AnyAsync(x =>
                     x.HallId == hallId &&
-                    x.StartTime > DateTime.UtcNow,
+                    x.StartTime > utcNow,
                     cancellationToken);
         }
     }

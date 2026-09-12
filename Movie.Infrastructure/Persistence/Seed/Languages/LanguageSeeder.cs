@@ -1,19 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Movie.Domain.Entities.Language;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.Persistence.Seed.Languages
 {
     public static class LanguageSeeder
     {
-        public static async Task SeedAsync(MovieDbContext context)
+        public static async Task SeedAsync(MovieDbContext context,
+            CancellationToken cancellationToken = default)
         {
-            if (await context.Languages.AnyAsync())
+            if (await context.Languages.AnyAsync(cancellationToken))
                 return;
 
-            await context.Languages.AddRangeAsync(
+            var languages = new[]
+            {
                 new Language(
                     "English",
                     "English",
@@ -38,9 +37,11 @@ namespace Movie.Infrastructure.Persistence.Seed.Languages
                     "German",
                     "Deutsch",
                     "DE")
-            );
+            };
 
-            await context.SaveChangesAsync();
+            await context.Languages.AddRangeAsync(languages, cancellationToken);
+
+            await context.SaveChangesAsync(cancellationToken);
         }
     }
 }

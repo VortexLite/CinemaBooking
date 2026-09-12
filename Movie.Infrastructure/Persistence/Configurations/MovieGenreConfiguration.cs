@@ -20,22 +20,21 @@ namespace Movie.Infrastructure.Persistence.Configurations
                 x.GenreId
             });
 
-            builder.ConfigureAudit();
+            builder.Property(x => x.MovieId)
+                .IsRequired();
 
-            builder.HasIndex(x => new
-            {
-                x.MovieId,
-                x.GenreId
-            })
-                .IsUnique();
+            builder.Property(x => x.GenreId)
+                .IsRequired();
 
             builder.HasOne(x => x.Movie)
                 .WithMany(x => x.MovieGenres)
-                .HasForeignKey(x => x.MovieId);
+                .HasForeignKey(x => x.MovieId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(x => x.Genre)
                 .WithMany(x => x.MovieGenres)
-                .HasForeignKey(x => x.GenreId);
+                .HasForeignKey(x => x.GenreId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

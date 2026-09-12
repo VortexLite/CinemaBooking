@@ -13,13 +13,16 @@ namespace Movie.Application.Features.Halls.Commands.UpdateHall
         : IRequestHandler<UpdateHallCommand>
     {
         private readonly IHallRepository _hallRepository;
+        private readonly TimeProvider _timeProvider;
         private readonly IUnitOfWork _unitOfWork;
 
         public UpdateHallCommandHandler(
             IHallRepository hallRepository, 
+            TimeProvider timeProvider,
             IUnitOfWork unitOfWork)
         {
             _hallRepository = hallRepository;
+            _timeProvider = timeProvider;
             _unitOfWork = unitOfWork;
         }
 
@@ -36,8 +39,10 @@ namespace Movie.Application.Features.Halls.Commands.UpdateHall
             var layoutChanged = hall.Rows != request.Rows ||
                 hall.Columns != request.Columns;
 
+            var utcNow = _timeProvider.GetUtcNow().UtcDateTime;
+
             if (layoutChanged &&
-                await _hallRepository.HasFutureSessionsAsync(hall.Id,
+                await _hallRepository.HasFutureSessionsAsync(hall.Id, utcNow,
                     cancellationToken))
                 throw new DomainException("Hall layout cannot be changed while future sessions exist.");
 

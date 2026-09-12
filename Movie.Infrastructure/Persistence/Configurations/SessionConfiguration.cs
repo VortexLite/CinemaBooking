@@ -31,13 +31,16 @@ namespace Movie.Infrastructure.Persistence.Configurations
                 .HasConversion<byte>();
 
             builder.Property(x => x.ProjectionType)
-                .HasConversion<byte>();
+                .HasConversion<byte>()
+                .IsRequired();
 
             builder.Property(x => x.SoundFormat)
-                .HasConversion<byte>();
+                .HasConversion<byte>()
+                .IsRequired();
 
             builder.Property(x => x.SubtitleType)
-                .HasConversion<byte>();
+                .HasConversion<byte>()
+                .IsRequired();
 
             builder.HasOne(x => x.Movie)
                 .WithMany(x => x.Sessions)

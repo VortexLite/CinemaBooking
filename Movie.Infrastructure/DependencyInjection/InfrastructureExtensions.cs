@@ -26,6 +26,8 @@ namespace Movie.Infrastructure.DependencyInjection
 
             services.AddRabbitMq(configuration);
 
+            services.AddSessionLifecycle(configuration);
+
             return services;
         }
     }

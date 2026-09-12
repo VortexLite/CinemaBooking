@@ -17,7 +17,6 @@ namespace Movie.Domain.Entities.Session
         public SessionStatus Status { get; private set; }
         public ProjectionType ProjectionType { get; private set; }
         public SubtitleType SubtitleType { get; private set; }
-
         public SoundFormat SoundFormat { get; private set; }
 
         private Session() { }
@@ -26,16 +25,24 @@ namespace Movie.Domain.Entities.Session
             Guid hallId,
             DateTime startTime,
             DateTime endTime,
-            decimal price)
+            decimal price,
+            ProjectionType projectionType,
+            SubtitleType subtitleType,
+            SoundFormat soundFormat)
         {
-            if (startTime >= endTime)
-                throw new DomainException("Invalid session time.");
+            Validate(movieId, hallId,startTime,endTime, price,
+                projectionType, subtitleType, soundFormat);
 
             MovieId = movieId;
             HallId = hallId;
             StartTime = startTime;
             EndTime = endTime;
             Price = price;
+            
+            ProjectionType = projectionType;
+            SubtitleType = subtitleType;
+            SoundFormat = soundFormat;
+
             Status = SessionStatus.Scheduled;
 
             Raise(new SessionCreatedEvent(Id));

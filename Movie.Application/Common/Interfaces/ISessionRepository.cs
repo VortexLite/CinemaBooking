@@ -8,33 +8,19 @@ namespace Movie.Application.Abstractions.Interfaces
     public interface ISessionRepository
         : IBaseRepository<Session>
     {
-        Task<Session?> GetDetailsAsync(
-            Guid id,
+        Task<Session?> GetByIdIncludingDeletedAsync( Guid id,
             CancellationToken cancellationToken = default);
 
-        Task<List<Session>> GetMovieSessionsAsync(
-            Guid movieId,
+        Task<bool> HasConflictAsync(Guid hallId, DateTime startTime,
+            DateTime endTime,
+            TimeSpan buffer,
+            Guid? excludeSessionId = null,
             CancellationToken cancellationToken = default);
 
-        Task<List<Session>> GetHallSessionsAsync(
-            Guid hallId,
+        Task<List<Session>> GetSessionToStartAsync(DateTime utcNow, int batchSize,
             CancellationToken cancellationToken = default);
 
-        Task<List<Session>> GetUpcomingAsync(
-            CancellationToken cancellationToken = default);
-
-        Task<List<Session>> GetByDateAsync(
-            DateOnly date,
-            CancellationToken cancellationToken = default);
-
-        Task<bool> IsHallBusyAsync(
-            Guid hallId,
-            DateTime start,
-            DateTime end,
-            CancellationToken cancellationToken = default);
-
-        Task<Session?> GetForBookingAsync(
-            Guid sessionId,
+        Task<List<Session>> GetSessionToFinishAsync(DateTime utcNow, int batchSize,
             CancellationToken cancellationToken = default);
     }
 }

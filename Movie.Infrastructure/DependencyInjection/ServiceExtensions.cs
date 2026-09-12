@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Movie.Application.Common.Interfaces;
 using Movie.Domain.Common;
+using Movie.Infrastructure.BackgroundJobs.Sessions;
 using Movie.Infrastructure.Messaging.IntegrationEvents;
 using Movie.Infrastructure.Messaging.Outbox;
 using Movie.Infrastructure.Messaging.Publishers;
@@ -29,6 +30,8 @@ namespace Movie.Infrastructure.DependencyInjection
 
             //services.AddSingleton<IIntegrationEventPublisher,
             //    LoggingIntegrationEventPublisher>();
+
+            services.AddSingleton(TimeProvider.System);
 
             return services;
         }

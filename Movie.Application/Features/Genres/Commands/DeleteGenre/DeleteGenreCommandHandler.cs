@@ -32,6 +32,9 @@ namespace Movie.Application.Features.Genres.Commands.DeleteGenre
             if (genre is null)
                 throw new NotFoundException(nameof(Genre), request.Id);
 
+            if (await _genreRepository.IsUsedByProtectedMoviesAsync(request.Id, cancellationToken))
+                throw new ConflictException("Genre cannot be deleted because it is used by published movies.");
+
             genre.Delete();
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);

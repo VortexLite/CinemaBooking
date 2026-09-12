@@ -204,27 +204,9 @@ namespace Movie.Infrastructure.Migrations
                     b.Property<Guid>("GenreId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
                     b.HasKey("MovieId", "GenreId");
 
                     b.HasIndex("GenreId");
-
-                    b.HasIndex("MovieId", "GenreId")
-                        .IsUnique();
 
                     b.ToTable("MovieGenres", "movie");
                 });
@@ -421,7 +403,7 @@ namespace Movie.Infrastructure.Migrations
                     b.HasOne("Movie.Domain.Entities.Genre.Genre", "Genre")
                         .WithMany("MovieGenres")
                         .HasForeignKey("GenreId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Movie.Domain.Entities.Movie.Movie", "Movie")

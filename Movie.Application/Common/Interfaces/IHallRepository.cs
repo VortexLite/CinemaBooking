@@ -20,6 +20,7 @@ namespace Movie.Application.Abstractions.Interfaces
             CancellationToken cancellationToken = default);
 
         Task<bool> HasFutureSessionsAsync(Guid hallId,
+            DateTime utcNow,
             CancellationToken cancellationToken = default);
 
         Task<Hall?> GetWithSeatsAsync(Guid id,

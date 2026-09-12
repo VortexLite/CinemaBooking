@@ -13,13 +13,16 @@ namespace Movie.Application.Features.Halls.Commands.ChangeSeatType
         : IRequestHandler<ChangeSeatTypeCommand>
     {
         private readonly IHallRepository _hallRepository;
+        private readonly TimeProvider _timeProvider;
         private readonly IUnitOfWork _unitOfWork;
 
         public ChangeSeatTypeCommandHandler(
-            IHallRepository hallRepository, 
+            IHallRepository hallRepository,
+            TimeProvider timeProvider,
             IUnitOfWork unitOfWork)
         {
             _hallRepository = hallRepository;
+            _timeProvider = timeProvider;
             _unitOfWork = unitOfWork;
         }
 
@@ -32,7 +35,9 @@ namespace Movie.Application.Features.Halls.Commands.ChangeSeatType
             if (hall is null)
                 throw new NotFoundException(nameof(Hall),request.HallId);
 
-            if (await _hallRepository.HasFutureSessionsAsync(hall.Id,
+            var utcNow = _timeProvider.GetUtcNow().UtcDateTime;
+
+            if (await _hallRepository.HasFutureSessionsAsync(hall.Id, utcNow,
                     cancellationToken))
                 throw new BusinessRuleException(
                     "Seat type cannot be changed while future sessions exist.");

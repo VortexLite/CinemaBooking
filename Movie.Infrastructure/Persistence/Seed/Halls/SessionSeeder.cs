@@ -3,32 +3,47 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using Movie.Domain.Enums;
 
 namespace Movie.Infrastructure.Persistence.Seed.Halls
 {
     public static class SessionSeeder
     {
-        public static async Task SeedAsync(MovieDbContext context)
+        public static async Task SeedAsync(MovieDbContext context,
+            CancellationToken cancellationToken = default)
         {
-            if (await context.Sessions.AnyAsync())
+            if (await context.Sessions.AnyAsync(cancellationToken))
                 return;
 
-            var hall = await context.Halls.FirstAsync();
+            var hall = await context.Halls.FirstAsync(cancellationToken);
 
-            var movies = await context.Movies.ToListAsync();
+            var movies = await context.Movies.ToListAsync(cancellationToken);
+
+            var currentStart = DateTime.UtcNow.Date.AddDays(1).AddHours(10);
+
+            var sessions = new List<Session>();
 
             foreach (var movie in movies)
             {
-                context.Sessions.Add(
+                var endTime = currentStart.AddMinutes(movie.DurationMinutes);
+
+                sessions.Add(
                     new Session(
                         movie.Id,
                         hall.Id,
-                        DateTime.UtcNow.AddDays(1).AddHours(18),
-                        DateTime.UtcNow.AddDays(1).AddHours(21),
-                        250));
+                        currentStart,
+                        endTime,
+                        250m,
+                        ProjectionType.TwoD,
+                        SubtitleType.None,
+                        SoundFormat.DolbyDigital));
+
+                currentStart = endTime.AddMinutes(15);
             }
 
-            await context.SaveChangesAsync();
+            await context.Sessions.AddRangeAsync(sessions, cancellationToken);
+
+            await context.SaveChangesAsync(cancellationToken);
         }
     }
 }

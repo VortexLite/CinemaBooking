@@ -21,41 +21,40 @@ namespace Movie.Application.Features.Halls.Events
             _cache = cache;
         }
 
-        public Task Handle(HallCreatedEvent notification, 
+        public async Task Handle(HallCreatedEvent notification, 
             CancellationToken cancellationToken)
         {
-            return _cache.RemoveByTagAsync(
+            await _cache.RemoveByTagAsync(
                 CacheTags.Halls,
                 cancellationToken);
         }
 
-        public Task Handle(HallUpdatedEvent notification,
+        public async Task Handle(HallUpdatedEvent notification,
             CancellationToken cancellationToken)
         {
-            return InvalidateAsync(
+            await InvalidateAsync(
             notification.HallId,
             cancellationToken);
         }
 
-        public Task Handle(HallDeletedEvent notification, 
+        public async Task Handle(HallDeletedEvent notification, 
             CancellationToken cancellationToken)
         {
-            return InvalidateAsync(
+            await InvalidateAsync(
             notification.HallId,
             cancellationToken);
         }
 
-        public Task Handle(HallRestoredEvent notification, 
+        public async Task Handle(HallRestoredEvent notification, 
             CancellationToken cancellationToken)
         {
-            return InvalidateAsync(
+            await InvalidateAsync(
             notification.HallId,
             cancellationToken);
         }
 
-        private async Task InvalidateAsync(
-        Guid hallId,
-        CancellationToken cancellationToken)
+        private async Task InvalidateAsync(Guid hallId,
+            CancellationToken cancellationToken)
         {
             await _cache.RemoveByTagAsync(
                 CacheTags.Hall(hallId),

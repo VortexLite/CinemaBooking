@@ -1,10 +1,6 @@
-﻿using Movie.Domain.Common;
-using Movie.Infrastructure.Messaging.IntegrationEvents;
+﻿using Movie.Infrastructure.Messaging.IntegrationEvents;
 using Movie.Infrastructure.Persistence.Outbox;
 using Shared.Contracts.IntegrationEvents;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Infrastructure.Messaging.Outbox
 {

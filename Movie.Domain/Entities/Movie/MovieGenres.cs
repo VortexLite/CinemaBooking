@@ -1,5 +1,7 @@
 ﻿using Movie.Domain.Entities.MovieGenre;
+using Movie.Domain.Enums;
 using Movie.Domain.Events.Movies;
+using Movie.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,6 +12,8 @@ namespace Movie.Domain.Entities.Movie
     {
         public void AddGenre(Genre.Genre genre)
         {
+            EnsureCanBeModified();
+
             ArgumentNullException.ThrowIfNull(genre);
 
             if (_movieGenres.Any(x => x.GenreId == genre.Id))
@@ -22,15 +26,23 @@ namespace Movie.Domain.Entities.Movie
 
         public void RemoveGenre(Guid genreId)
         {
-            var movieGenre =
-                _movieGenres.FirstOrDefault(x => x.GenreId == genreId);
+            EnsureCanBeModified();
+
+            if (genreId == Guid.Empty)
+                throw new DomainException("Genre id is required");
+
+            var movieGenre = _movieGenres.FirstOrDefault(x => x.GenreId == genreId);
 
             if (movieGenre is null)
                 return;
 
+            if (Status == MovieStatus.Published &&
+                _movieGenres.Count == 1)
+                throw new DomainException("Published movie must have at least one genre.");
+
             _movieGenres.Remove(movieGenre);
 
-            Raise(new MovieGenreRemovedEvent(Id, movieGenre.Id));
+            Raise(new MovieGenreRemovedEvent(Id, genreId));
         }
     }
 }

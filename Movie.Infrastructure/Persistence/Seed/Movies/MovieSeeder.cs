@@ -6,16 +6,19 @@ namespace Movie.Infrastructure.Persistence.Seed.Movies
 {
     public static class MovieSeeder
     {
-        public static async Task SeedAsync(MovieDbContext context)
+        public static async Task SeedAsync(MovieDbContext context,
+            CancellationToken cancellationToken = default)
         {
-            if (await context.Movies.AnyAsync())
+            if (await context.Movies.AnyAsync(cancellationToken))
                 return;
 
             var english = await context.Languages
-                .FirstAsync(x => x.IsoCode == "EN");
+                .FirstAsync(x => x.IsoCode == "EN",
+                cancellationToken);
 
             var ukrainian = await context.Languages
-                .FirstAsync(x => x.IsoCode == "UK");
+                .FirstAsync(x => x.IsoCode == "UK",
+                cancellationToken);
 
             var movies = new[]
             {
@@ -53,9 +56,9 @@ namespace Movie.Infrastructure.Persistence.Seed.Movies
             foreach (var movie in movies)
                 movie.Publish();
 
-            await context.Movies.AddRangeAsync(movies);
+            await context.Movies.AddRangeAsync(movies, cancellationToken);
 
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(cancellationToken);
         }
     }
 }

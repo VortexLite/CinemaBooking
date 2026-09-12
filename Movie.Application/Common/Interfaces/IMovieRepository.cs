@@ -27,10 +27,14 @@ namespace Movie.Application.Abstractions.Interfaces
         Task<Domain.Entities.Movie.Movie?> GetDeletedByIdAsync(Guid id,
             CancellationToken cancellationToken = default);
 
-        Task RestoreAsync(Guid id,
+        Task<List<Domain.Entities.Movie.Movie>> GetDeletedAsync(
             CancellationToken cancellationToken = default);
 
-        Task<List<Domain.Entities.Movie.Movie>> GetDeletedAsync(
+        Task<bool> HasActiveOrFutureSessionsAsync(Guid movieId,
+            DateTime utcNow,
+            CancellationToken cancellationToken = default);
+
+        Task<Domain.Entities.Movie.Movie?> GetWithGenresAsync(Guid id,
             CancellationToken cancellationToken = default);
     }
 }

@@ -3,14 +3,18 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Movie.Api.Contracts.Movies;
+using Movie.Application.Features.Movies.Commands.AddGenreToMovie;
 using Movie.Application.Features.Movies.Commands.ArchiveMovie;
 using Movie.Application.Features.Movies.Commands.CreateMovie;
 using Movie.Application.Features.Movies.Commands.DeleteMovie;
 using Movie.Application.Features.Movies.Commands.PublishMovie;
+using Movie.Application.Features.Movies.Commands.RemoveGenreFromMovie;
 using Movie.Application.Features.Movies.Commands.RestoreMovie;
 using Movie.Application.Features.Movies.Commands.UpdateMovie;
+using Movie.Application.Features.Movies.Queries.GetDeletedMovies;
 using Movie.Application.Features.Movies.Queries.GetMovie;
 using Movie.Application.Features.Movies.Queries.GetMovies;
+using Movie.Application.Features.Sessions.Queries.GetSessions;
 using Movie.Domain.Enums;
 using Shared.Common.Models;
 
@@ -222,18 +226,14 @@ namespace Movie.Api.Controllers
         /// </summary>
         [HttpGet("deleted")]
         public async Task<ActionResult<PagedResult<GetMoviesResponse>>> GetDeletedMovies(
-            CancellationToken cancellationToken)
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 20,
+            CancellationToken cancellationToken = default)
         {
-            return Ok(await _sender.Send(
-                new GetMoviesQuery(
-                    null,
-                    null,
-                    null,
-                    null,
-                    true,
-                    1,
-                    20),
-                cancellationToken));
+            var result = await _sender.Send(new GetDeletedMoviesQuery(
+                page, pageSize), cancellationToken);
+
+            return Ok(result);
         }
 
         /// <summary>
@@ -294,6 +294,65 @@ namespace Movie.Api.Controllers
                     1,
                     20),
                 cancellationToken));
+        }
+
+        /// <summary>
+        /// Додати жанр до фільму
+        /// </summary>
+        [HttpPost("{movieId:guid}/genres/{genreId:guid}")]
+        public async Task<IActionResult> AddGenre(
+            Guid movieId,
+            Guid genreId,
+            CancellationToken cancellationToken)
+        {
+            await _sender.Send(
+                new AddMovieGenreCommand(
+                    movieId,
+                    genreId),
+                cancellationToken);
+
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Видалити жанр з фільму
+        /// </summary>
+        [HttpDelete("{movieId:guid}/genres/{genreId:guid}")]
+        public async Task<IActionResult> RemoveGenre(
+            Guid movieId,
+            Guid genreId,
+            CancellationToken cancellationToken)
+        {
+            await _sender.Send(
+                new RemoveMovieGenreCommand(
+                    movieId,
+                    genreId),
+                cancellationToken);
+
+            return NoContent();
+        }
+
+        [HttpGet("{movieId:guid}/sessions")]
+        public async Task<IActionResult> GetMovieSessions(Guid movieId,
+            [FromQuery] DateOnly date,
+            CancellationToken cancellationToken)
+        {
+            var fromUtc = DateTime.SpecifyKind(date.ToDateTime(TimeOnly.MinValue),
+                DateTimeKind.Utc);
+
+            var toUtc = fromUtc.AddDays(1);
+
+            var result = await _sender.Send(
+                new GetSessionsQuery(
+                    FromUtc: fromUtc,
+                    ToUtc: toUtc,
+                    MovieId: movieId,
+                    HallId: null,
+                    Status: SessionStatus.OpenForBooking,
+                    IncludeDeleted: false),
+                cancellationToken);
+
+            return Ok(result);
         }
     }
 }

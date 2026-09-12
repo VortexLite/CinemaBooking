@@ -10,12 +10,6 @@ namespace Movie.Domain.Enums
 
         Published = 2,
 
-        ComingSoon = 3,
-
-        InCinema = 4,
-
-        Archived = 5,
-
-        Deleted = 6
+        Archived = 3
     }
 }

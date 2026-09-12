@@ -20,6 +20,8 @@ namespace Movie.Domain.Entities.Movie
             DateOnly releaseDate,
             Guid languageId)
         {
+            EnsureCanBeModified();
+
             ChangeTitle(title);
             ChangeDescription(description);
             ChangeDuration(durationMinutes);
@@ -28,14 +30,15 @@ namespace Movie.Domain.Entities.Movie
             ChangeTrailer(trailerUrl);
             ChangeReleaseDate(releaseDate);
             ChangeLanguage(languageId);
-
-            Raise(new MovieUpdatedEvent(Id));
         }
 
         public void Publish()
         {
-            if (Status == MovieStatus.Published)
-                throw new DomainException("Movie already published.");
+            if (Status != MovieStatus.Draft)
+                throw new DomainException("Only a draft movie can be published.");
+
+            if (_movieGenres.Count == 0)
+                throw new DomainException("Movie must have at least one genre before publishing.");
 
             Status = MovieStatus.Published;
 
@@ -44,8 +47,8 @@ namespace Movie.Domain.Entities.Movie
 
         public void Archive()
         {
-            if (Status == MovieStatus.Archived)
-                return;
+            if (Status != MovieStatus.Published)
+                throw new DomainException("Only a published movie can be archived.");
 
             Status = MovieStatus.Archived;
 
@@ -54,38 +57,77 @@ namespace Movie.Domain.Entities.Movie
 
         public void ChangeTitle(string title)
         {
+            EnsureCanBeModified();
+
             ValidateTitle(title);
 
-            Raise(new MovieTitleChangedEvent(Id, Title, title));
+            string nornalizedTitle = title.Trim();
 
-            Title = title.Trim();
+            if (Title == nornalizedTitle)
+                return;
+
+            string oldTitle = Title;
+
+            Title = nornalizedTitle;
+
+            Raise(new MovieTitleChangedEvent(Id, oldTitle, nornalizedTitle));
         }
 
         public void ChangeDescription(string description)
         {
-            Description = description.Trim();
+            EnsureCanBeModified();
 
-            Raise(new MovieDescriptionChangedEvent(Id, description));
+            ValidateDescription(description);
+
+            string nornalizedDescription = description.Trim();
+
+            if (Description == nornalizedDescription) 
+                return;
+
+            Description = nornalizedDescription;
+
+            Raise(new MovieDescriptionChangedEvent(Id, nornalizedDescription));
         }
 
         public void ChangePoster(string poster)
         {
+            EnsureCanBeModified();
+
             ValidatePoster(poster);
 
-            PosterUrl = poster;
+            string nornalizedPoster = poster.Trim();
 
-            Raise(new MoviePosterChangedEvent(Id, poster));
+            if (PosterUrl == nornalizedPoster)
+                return;
+
+            PosterUrl = nornalizedPoster;
+
+            Raise(new MoviePosterChangedEvent(Id, nornalizedPoster));
         }
 
-        public void ChangeTrailer(string? trailer)
+        public void ChangeTrailer(string? trailerUrl)
         {
-            TrailerUrl = trailer;
+            EnsureCanBeModified();
 
-            Raise(new MovieTrailerChangedEvent(Id, trailer));
+            ValidateTrailer(trailerUrl);
+
+            string? normalizedTrailer = string.IsNullOrWhiteSpace(trailerUrl)
+                ? null
+                : trailerUrl.Trim();
+
+            if (TrailerUrl == normalizedTrailer)
+                return;
+
+            TrailerUrl = normalizedTrailer;
+
+            Raise(new MovieTrailerChangedEvent(Id, normalizedTrailer));
         }
 
         public void Restore()
         {
+            if (!IsDeleted)
+                return;
+
             MarkRestored();
 
             Raise(new MovieRestoredEvent(Id));
@@ -93,6 +135,8 @@ namespace Movie.Domain.Entities.Movie
 
         public void ChangeDuration(int durationMinutes)
         {
+            EnsureCanBeModified();
+
             ValidateDuration(durationMinutes);
 
             if (DurationMinutes == durationMinutes)
@@ -105,6 +149,8 @@ namespace Movie.Domain.Entities.Movie
 
         public void ChangeAgeRestriction(byte ageRestriction)
         {
+            EnsureCanBeModified();
+
             ValidateAgeRestriction(ageRestriction);
 
             if (AgeRestriction == ageRestriction)
@@ -117,6 +163,8 @@ namespace Movie.Domain.Entities.Movie
 
         public void ChangeReleaseDate(DateOnly releaseDate)
         {
+            EnsureCanBeModified();
+
             ValidateReleaseDate(releaseDate);
 
             if (ReleaseDate == releaseDate)
@@ -129,6 +177,8 @@ namespace Movie.Domain.Entities.Movie
 
         public void ChangeLanguage(Guid languageId)
         {
+            EnsureCanBeModified();
+
             ValidateLanguage(languageId);
 
             if (LanguageId == languageId)
@@ -137,6 +187,31 @@ namespace Movie.Domain.Entities.Movie
             LanguageId = languageId;
 
             Raise(new MovieLanguageChangedEvent(Id, languageId));
+        }
+
+        public void Delete()
+        {
+            if (IsDeleted)
+                return;
+
+            MarkDeleted();
+
+            Raise(new MovieDeletedEvent(Id));
+        }
+
+        private void EnsureCanBeModified()
+        {
+            if (Status == MovieStatus.Archived)
+            {
+                throw new DomainException(
+                    "Archived movie cannot be modified.");
+            }
+
+            if (IsDeleted)
+            {
+                throw new DomainException(
+                    "Deleted movie cannot be modified.");
+            }
         }
     }
 }

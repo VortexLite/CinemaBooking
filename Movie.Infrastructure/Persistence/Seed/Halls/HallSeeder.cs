@@ -10,16 +10,20 @@ namespace Movie.Infrastructure.Persistence.Seed.Halls
 {
     public static class HallSeeder
     {
-        public static async Task SeedAsync(MovieDbContext context)
+        public static async Task SeedAsync(MovieDbContext context,
+            CancellationToken cancellationToken = default)
         {
-            if (await context.Halls.AnyAsync())
+            if (await context.Halls.AnyAsync(cancellationToken))
                 return;
 
-            await context.Halls.AddRangeAsync(
+            var halls = new[]
+            {
                 new Hall("Hall 1", 10, 16),
                 new Hall("Hall 2", 12, 20),
                 new Hall("VIP Hall", 8, 10)
-            );
+            };
+
+            await context.AddRangeAsync(halls, cancellationToken);
 
             await context.SaveChangesAsync();
         }
